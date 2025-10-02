@@ -1,0 +1,1203 @@
+/*==============================
+  0. Variables de tema (light por defecto)
+===============================*/
+/* 1. Variables light por defecto */
+:root {
+  --bg-color: #f5f5f5;
+  --text-color: #333;
+  --input-text: #333  ;
+  --navbar-bg: #214093;
+  --navbar-text: #fff;
+  --navbar-hover: #DDE1F1;
+  --secondary-color: #90A2C7;
+  --card-bg: #DDE1F1;
+  --card-shadow: rgba(0,0,0,0.1);
+  --button-bg: #214093;
+  --button-hover-bg: #1a3176;
+  --border-color: #DDE1F1;
+  --table-bg-hover: #ccc;
+  --table-bg:  #DDE1F1;
+  --etiqueta-table-bg:  #ffffff;
+  --etiqueta-text-color: #000000;
+}
+
+/* 2. Si el sistema está en dark y NO hay clases, se activan vars dark */
+@media (prefers-color-scheme: dark) {
+  :root:not(.theme-light):not(.theme-dark) {
+    --bg-color: #1b1a1a;
+    --text-color: #e0e0e0;
+    --input-text: #395dc0;
+    --navbar-bg: #395dc0;
+    --navbar-text: #e0e0e0;
+    --navbar-hover: #4352a9;
+    --secondary-color: #3949ab;
+    --card-bg: #1e1e1e;
+    --card-shadow: rgba(0,0,0,0.5);
+    --button-bg: #3949ab;
+    --button-hover-bg: #202e8d;
+    --border-color: #333;
+    --table-bg-hover: #383845;
+    --table-bg:  #333;
+    --etiqueta-table-bg:  #333;
+    --etiqueta-text-color: #e0e0e0;
+
+  }
+}
+
+/* 3. Clases que siempre anulan la media‑query */
+.theme-light {
+  --bg-color: #f5f5f5;
+  --text-color: #333;
+  --input-text: #333;
+  --navbar-bg: #214093;
+  --navbar-text: #fff;
+  --navbar-hover: #000000;
+  --secondary-color: #90A2C7;
+  --card-bg: #DDE1F1;
+  --card-shadow: rgba(0,0,0,0.1);
+  --button-bg: #214093;
+  --button-hover-bg: #1a3176;
+  --border-color: #DDE1F1;  
+  --table-bg-hover: #ccc;
+  --table-bg:  #DDE1F1;
+  --etiqueta-table-bg:  #ffffff;
+  --etiqueta-text-color: #000000;
+}
+.theme-dark {
+  --bg-color: #1b1a1a;
+    --text-color: #e0e0e0;
+    --input-text: #395dc0;
+    --navbar-text: #e0e0e0;
+    --navbar-bg: #395dc0;
+    --navbar-hover: #4352a9;
+    --secondary-color: #3949ab;
+    --card-bg: #1e1e1e;
+    --card-shadow: rgba(0,0,0,0.5);
+    --button-bg: #3949ab;
+    --button-hover-bg: #202e8d;
+    --border-color: #333;
+    --table-bg-hover: #383845;
+    --table-bg:  #333;
+    --etiqueta-table-bg:  #333;
+    --etiqueta-text-color: #e0e0e0;
+}
+
+
+
+/*==============================
+  2. Tus estilos (actualizados con variables)
+===============================*/
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+
+  
+  
+}
+
+
+
+
+
+.table {
+  width: 1000px;
+  border-collapse: separate;
+  border-spacing: 0 8px; /* separación entre filas */
+  background-color: var(--table-bg);
+  border: none;
+  color: var(--text-color);
+}
+
+.table tr {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px var(--card-shadow);
+}
+
+.table td {
+  border: none;
+  padding: 12px 16px;
+}
+
+.table tr:hover {
+  background-color: var(--table-bg-hover); /* suave resaltado al pasar el ratón */
+  transition: background-color 0.3s ease;
+}
+
+.main {
+  display: flex;
+  padding-top: 70px;
+  justify-content: center;
+  position: relative;
+}
+
+input {
+  color: var(--input-text) !important;
+  background-color: var(--card-bg);
+  border: 2px solid var(--border-color);
+}
+
+.navbar button {
+  color: var(--navbar-text);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  order: 1;
+}
+
+.sidebar button {
+  width: 100px;
+  color: var(--navbar-text);
+}
+
+.sidebarButton{
+  margin-top: 50px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: var(--navbar-bg);
+  height: 70px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px var(--card-shadow);
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.navbar-logo {
+  color: var(--navbar-text);
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/*login en narvar*/
+.user-greeting {
+  color: white;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  font-size: 0.875rem;      
+  display: inline-block;
+  white-space: nowrap;
+}
+
+
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin-left: 25px;
+}
+
+.nav-link {
+  color: var(--navbar-text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+  padding: 8px 0;
+}
+
+.nav-link:hover {
+  color: var(--navbar-hover);
+}
+
+.login-link {
+  padding: 8px 15px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 5px;
+}
+
+.login-link:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.logout-btn {
+  background-color: transparent;
+  color: var(--navbar-text);
+  border: 1px solid var(--navbar-text);
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: var(--navbar-text);
+  color: var(--navbar-bg);
+}
+
+.menu-icon {
+  display: none;
+}
+
+.hamburger {
+  width: 25px;
+  height: 20px;
+  position: relative;
+  cursor: pointer;
+}
+
+.hamburger span {
+  display: block;
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  background: var(--navbar-text);
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.hamburger span:nth-child(1) { top: 0; }
+.hamburger span:nth-child(2) { top: 8px; }
+.hamburger span:nth-child(3) { top: 16px; }
+
+.hamburger.open span:nth-child(1) {
+  top: 8px; transform: rotate(45deg);
+}
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) {
+  top: 8px; transform: rotate(-45deg);
+}
+
+/* Layout */
+.app-content {
+  padding-top: 90px;
+  min-height: calc(100vh - 70px);
+}
+
+.container {
+  max-width: 1000px !important;
+  order: 2;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.container-detail {
+  max-width: 600px !important;
+  order: 2;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+
+
+
+
+
+
+.container-books {
+  width: 600px !important;
+  order: 2;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  flex-direction: column;
+}
+
+.logo {
+  height: 80px;
+  margin-bottom: 15px;
+}
+
+/* Títulos */
+h1 {
+  color: var(--navbar-bg);
+  font-size: 2.5rem;
+  margin: 0 0 10px 0;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+h2 {
+  color: var(--navbar-bg);
+  font-size: 1.8rem;
+  margin: 20px 0;
+  border-bottom: 2px solid var(--secondary-color);
+  padding-bottom: 10px;
+}
+
+h3 {
+  margin: 0;
+  color: var(--text-color);
+}
+
+/* Sección de búsqueda */
+.search-container {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto 30px;
+  z-index: 90;
+}
+
+.search-container form {
+  display: flex;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 30px 0 0 30px;
+  outline: none;
+  transition: all 0.3s;
+  box-shadow: 0 2px 5px var(--card-shadow);
+  color: var(--input-text) ; 
+  background: none;
+}
+
+.search-input::placeholder {
+  color: var(--navbar-hover);
+}
+
+.search-button {
+  padding: 12px 20px;
+  background-color: var(--button-bg);
+  color: var(--navbar-text);
+  border: none;
+  border-radius: 0 30px 30px 0;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.search-button:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.search-input:focus {
+  border-color: var(--secondary-color);
+  box-shadow: 0 2px 10px var(--card-shadow);
+}
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px var(--card-shadow);
+  margin-top: 8px;
+  z-index: 10;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.search-result-item {
+  display: block;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.2s;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover {
+  background-color: var(--border-color);
+}
+
+.search-result-title {
+  font-weight: bold;
+  color: var(--navbar-bg);
+}
+
+.search-result-author {
+  font-size: 14px;
+  color: var(--secondary-color);
+  margin-top: 4px;
+}
+
+.no-results {
+  padding: 16px;
+  text-align: center;
+  color: var(--secondary-color);
+}
+
+/* Estado de búsqueda */
+.search-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--secondary-color);
+}
+
+.search-status h2 {
+  margin: 0;
+  color: var(--navbar-bg);
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.clear-search-btn {
+  background-color: var(--secondary-color);
+  color: var(--navbar-text);
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.clear-search-btn:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.no-books-container {
+  text-align: center;
+  padding: 30px;
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px var(--card-shadow);
+}
+
+.no-books-container .clear-search-btn {
+  margin-top: 15px;
+}
+
+/* Lista de libros */
+.books-section {
+  margin-top: 20px;
+  width: auto;
+}
+
+.gif-banner {
+ 
+  margin: 20px auto 0; 
+  display: block; 
+  width: fit-content; 
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.book-item {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+}
+
+.book-link {
+  text-decoration: none;
+  display: block;
+  height: 100%;
+}
+
+.book-card {
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  padding: 20px;
+  height: 100%;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  min-height: 240px;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px var(--card-shadow);
+}
+
+.book-title {
+  background-color: var(--secondary-color);
+  color: var(--navbar-text);
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.book-info {
+  flex-grow: 1;
+  margin-bottom: 15px;
+}
+
+.book-author,
+.book-editorial,
+.book-isbn,
+.book-year {
+  margin: 8px 0;
+  color: var(--text-color);
+}
+
+.book-author span,
+.book-editorial span,
+.book-isbn span,
+.book-year span {
+  font-weight: bold;
+  color: var(--navbar-bg);
+}
+
+.view-details-btn {
+  background-color: var(--button-bg);
+  color: var(--navbar-text);
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  align-self: center;
+  width: 100%;
+}
+
+.view-details-btn:hover {
+  background-color: var(--button-hover-bg);
+}
+
+/* Animación de carga */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--border-color);
+  border-top: 4px solid var(--navbar-bg);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+.no-books-message {
+  text-align: center;
+  color: var(--secondary-color);
+  padding: 30px;
+  font-size: 18px;
+}
+
+/* Estilos página de detalles */
+.book-details-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.back-link {
+  display: inline-block;
+  color: var(--navbar-bg);
+  text-decoration: none;
+  margin-bottom: 20px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: var(--button-hover-bg);
+}
+
+.back-arrow {
+  margin-right: 8px;
+}
+
+.book-details-card {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 15px var(--card-shadow);
+}
+
+.details-title {
+  text-align: center;
+  color: var(--navbar-bg);
+  margin-top: 0;
+}
+
+.book-title-details {
+  background-color: var(--secondary-color);
+  color: var(--navbar-text);
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.book-metadata,
+.book-description {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px var(--card-shadow);
+}
+
+.metadata-item {
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.metadata-item:last-child {
+  margin-bottom: 0;
+}
+
+.metadata-item span {
+  font-weight: bold;
+  color: var(--navbar-bg);
+  margin-right: 5px;
+}
+
+/* Página de login */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  padding: 20px;
+}
+
+.login-card {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  padding: 30px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 4px 15px var(--card-shadow);
+}
+
+.login-title {
+  text-align: center;
+  color: var(--navbar-bg);
+  margin-top: 0;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--secondary-color);
+}
+
+.login-form {
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--navbar-bg);
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid var(--secondary-color);
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--navbar-bg);
+  box-shadow: 0 0 0 3px rgba(33, 64, 147, 0.2);
+}
+
+.login-button {
+  width: 25%;
+  padding: 12px;
+  background-color: var(--button-bg);
+  color: var(--navbar-text);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.login-button:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.login-button:disabled {
+  background-color: var(--secondary-color);
+  cursor: not-allowed;
+}
+
+.login-footer {
+  margin-top: 25px;
+  text-align: center;
+  border-top: 1px solid var(--secondary-color);
+  padding-top: 15px;
+}
+
+.back-to-home {
+  color: var(--navbar-bg);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.back-to-home:hover {
+  color: var(--button-hover-bg);
+  text-decoration: underline;
+}
+
+
+.pagination-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 15px 0;
+}
+
+.page-numbers {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.paginator-button {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  min-width: 40px;
+  text-align: center;
+}
+
+.paginator-button:hover {
+  background-color: var(--secondary-color);
+  color: var(--navbar-text);
+}
+
+.paginator-active {
+  background-color: var(--button-bg);
+  color: var(--navbar-text);
+  border-color: var(--button-bg);
+}
+
+.paginator-nav {
+  font-weight: 500;
+  min-width: 100px;
+}
+
+.paginator-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.paginator-ellipsis {
+  margin: 0 5px;
+}
+
+.results-count {
+  margin-right: 15px;
+  color: var(--secondary-color);
+  font-weight: 500;
+}
+
+.search-info {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+
+/* Estilos para la pagina de exemplares y impresion de etiquetas */
+
+/* Contenedor general de la lista */
+.exemplars-list {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--card-shadow);
+  border: 1px solid var(--border-color);
+}
+
+/* Estilo para cada ítem */
+
+.exemplar-item p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.exemplar-item {
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem 1.5rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.6); /* fondo difuminado claro */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 6px 15px var(--card-shadow);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.theme-dark .exemplar-item {
+  background: rgba(30, 30, 30, 0.4); /* fondo difuminado oscuro */
+}
+
+.exemplar-item:hover {
+  transform: translateY(-3px);
+  background-color: var(--table-bg-hover);
+}
+
+/* Elementos internos */
+.exemplar-item .title {
+  margin: 0;
+  color: var(--navbar-bg);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.exemplar-item .author {
+  color: var(--secondary-color);
+  font-size: 0.9rem;
+  margin-top: 0.4rem;
+}
+
+.exemplar-item .year,
+.exemplar-item .details {
+  font-size: 0.85rem;
+  color: var(--text-color);
+  margin-top: 0.3rem;
+}
+
+.batch-actions{
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.batch-btn{
+
+  background-color: var(--table-bg);
+  padding: 10px;
+
+}
+
+
+
+.add-remove-btn{
+  margin-left: 40px;
+  background-color: var(--table-bg);
+  padding: 10px;
+}
+
+.carrito-list {
+  display: table;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  background-color: var(--table-bg);
+  padding: 0.5rem;
+}
+
+.carrito-item {
+  display: table-row;
+  background-color: var(--card-bg);
+  box-shadow: 0 2px 4px var(--card-shadow);
+  border-radius: 8px;
+  overflow: hidden;
+  color: var(--text-color);
+  transition: background-color 0.3s ease;
+}
+
+.carrito-item:nth-child(even) {
+  background-color: var(--table-bg-hover);
+}
+
+.carrito-item:hover {
+  background-color: var(--table-bg-hover);
+}
+
+.carrito-item > * {
+  display: table-cell;
+  padding: 12px 16px;
+  vertical-align: middle;
+}
+
+.carrito-item {
+  display: flex;
+  align-items: center;        /* Centra verticalmente el texto y el botón */
+  justify-content: space-between; /* Espacia al máximo el contenido */
+  /* opcional: padding, border, etc. */
+}
+.carrito-item .remove-btn:hover {
+  color: red;
+}
+
+
+/* impresion de etiquetas */
+
+.imprimir-container {
+  margin: 0;
+  padding: 0;
+}
+
+.print-btn {
+  margin-bottom: 8px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: var(--button-bg);
+  color: white;
+}
+
+.printPage {
+  width: 210mm;
+  height: 297mm;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.labelsTable {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.labelsTable td {
+  color: var(--etiqueta-text-color);
+  background-color: var(--etiqueta-table-bg);
+  width: 4.8cm;
+  height: 1.7cm;
+  padding: 0;
+  box-sizing: border-box;
+  border: 1px solid var(--text-color);
+  vertical-align: top;
+  overflow: hidden;
+}
+
+.emptyCell {
+  border: none;
+}
+
+.labelCenter {
+  font-weight: bold;
+  font-size: 6pt;
+  text-align: center;
+}
+
+.barcodeImg {
+  
+  width: 100%;
+  display: block;
+  height: 35px;
+  padding: 1mm;
+
+}
+
+.labelCdu {
+  margin-left: 10px;
+  font-style: italic;
+  font-size: 8pt;
+
+}
+
+.labelCDU{
+  margin-left: 10px;
+  font-weight: bold;
+  font-style: italic ;
+  font-size: 10pt ;  
+  text-align: center;
+  width: 100%;
+}
+/* 
+
+
+*/
+
+
+/* Adaptaciones para móviles */
+@media (max-width: 768px) {
+  .pagination-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .paginator-nav {
+    width: 100%;
+    order: 2;
+  }
+  
+  .page-numbers {
+    order: 1;
+  }
+  .books-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .container {
+    padding: 15px;
+  }
+
+  .container-detail {
+    max-width: 350px;
+    padding: 15px;
+  }
+
+  .container-books {
+    max-width: 350px;
+    padding: 15px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  .book-details-card {
+    padding: 20px;
+  }
+  
+  .search-input {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+  
+  .search-button {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  
+  .search-status {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .login-card {
+    padding: 20px;
+  }
+  
+  /* Responsive navbar */
+  .menu-icon {
+    display: block;
+    z-index: 10;
+  }
+  
+  .nav-menu {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: 70px;
+    left: -100%;
+    background-color: var(--navbar-bg);
+    box-shadow: 0 4px 8px var(--card-shadow);
+    transition: all 0.5s ease;
+    padding: 20px 0;
+  }
+  
+  .nav-menu.active {
+    left: 0;
+  }
+  
+  .nav-item {
+    margin: 10px 0;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .nav-link {
+    display: block;
+    width: 100%;
+    padding: 12px 0;
+  }
+  
+  .logout-btn {
+    width: 50%;
+    margin: 10px auto;
+    padding: 12px 0;
+  }
+
+
+  .user-greeting {
+    font-size: 1rem;  
+  }
+
+  .navbar-logo {
+    font-size: 1rem;
+    
+  }
+  
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
