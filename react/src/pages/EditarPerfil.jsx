@@ -12,7 +12,7 @@ function EditarPerfil({ formData, onChange, onSave, message }) {
   const imgSrc = formData.imatge
     ? formData.imatge.startsWith("data:")
       ? formData.imatge
-      : `http://biblioteca5.ieti.site${formData.imatge}`
+      : `http://127.0.0.1:8000${formData.imatge}`
     : null;
 
   const handleFileChange = (e) => {

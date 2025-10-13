@@ -1,58 +1,58 @@
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import Button from './Button';
-import ThemeToggle from './ThemeToggle';
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import Button from "./Button";
+import ThemeToggle from "./ThemeToggle";
 
-function Navbar({user, changeToken,onLoginClick, onPerfilClick, setAuthenticated, onCatalagClick, style, isToken, setRole, ...others }) {
+function Navbar({
+  user,
+  changeToken,
+  onLoginClick,
+  onPerfilClick,
+  setAuthenticated,
+  onCatalagClick,
+  style,
+  isToken,
+  setRole,
+  ...others
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
     // Eliminar el token, actualizar estado y cerrar el menú
-    localStorage.removeItem('authToken');
+    localStorage.removeItem("authToken");
     setAuthenticated(false);
     setMenuOpen(false);
-    changeToken(false)
+    changeToken(false);
 
-    console.log("token borrado: ",changeToken, "   token :    ",isToken)
-   
+    console.log("token borrado: ", changeToken, "   token :    ", isToken);
   };
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
-
-
   return (
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo" onClick={() => setMenuOpen(false)}>
-          Biblioteca Maricarmen Brito
+          Biblioteca Pública
         </Link>
 
         {isToken && user && (
-        <li className="nav-item list-none">
-          <span className="user-greeting">
-            Hola, {user}
-          </span>
-        </li>
-      )}
-
-
-
-
-
-
+          <li className="nav-item list-none">
+            <span className="user-greeting">Hola, {user}</span>
+          </li>
+        )}
 
         <div className="menu-icon" onClick={toggleMenu}>
-          <div className={menuOpen ? 'hamburger open' : 'hamburger'}>
+          <div className={menuOpen ? "hamburger open" : "hamburger"}>
             <span></span>
             <span></span>
             <span></span>
           </div>
         </div>
 
-        <ul className={menuOpen ? 'nav-menu active' : 'nav-menu'}>
+        <ul className={menuOpen ? "nav-menu active" : "nav-menu"}>
           <li className="nav-item">
             {/* Botón para ir al catálogo / inicio */}
             <Button
@@ -78,7 +78,6 @@ function Navbar({user, changeToken,onLoginClick, onPerfilClick, setAuthenticated
               </li>
 
               <li className="nav-item">
-                
                 <Button
                   text="Tancar Sessió"
                   onClick={() => {

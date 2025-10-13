@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Biblioteca MariCarmen Brito
 
 Software per a gestió de biblioteques.
@@ -76,7 +75,3 @@ Exemples:
 GET /api/llibres
 paràmetres: no n'hi ha
 
-=======
-# Biblioteca-Publica
-Página web para administración de una biblioteca
->>>>>>> 2691a1227f35fc7d5aa3d85182f75acd18d5d7c9

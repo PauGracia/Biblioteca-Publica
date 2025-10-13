@@ -13,8 +13,7 @@ function PrestacUsuario({ username }) {
     setLoading(true);
     setError("");
     try {
-       const response = await fetch("https://biblioteca5.ieti.site/api/prestecs", {
-      //const response = await fetch("http://127.0.0.1:8000/api/prestecs", {
+      const response = await fetch("http://127.0.0.1:8000/api/prestecs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username }),
@@ -24,8 +23,12 @@ function PrestacUsuario({ username }) {
       }
       const data = await response.json();
       const sortedLoans = data.sort((a, b) => {
-        const dateA = a.data_retorn ? new Date(a.data_retorn) : new Date(a.data_prestec);
-        const dateB = b.data_retorn ? new Date(b.data_retorn) : new Date(b.data_prestec);
+        const dateA = a.data_retorn
+          ? new Date(a.data_retorn)
+          : new Date(a.data_prestec);
+        const dateB = b.data_retorn
+          ? new Date(b.data_retorn)
+          : new Date(b.data_prestec);
         return dateB - dateA;
       });
       setLoans(sortedLoans);
@@ -36,7 +39,9 @@ function PrestacUsuario({ username }) {
     }
   };
 
-  useEffect(() => { fetchLoans(); }, [username]);
+  useEffect(() => {
+    fetchLoans();
+  }, [username]);
 
   const getRowStyle = (loan) => {
     const today = new Date();
@@ -57,11 +62,13 @@ function PrestacUsuario({ username }) {
   };
 
   return (
-    <div className="container" style={{ 
-      position: "relative", 
-      paddingBottom: "120px",  
-           
-      }}>
+    <div
+      className="container"
+      style={{
+        position: "relative",
+        paddingBottom: "120px",
+      }}
+    >
       <Header level={1} estilo={{ marginBottom: "20px" }}>
         Préstecs de {username}
       </Header>
@@ -106,7 +113,8 @@ function PrestacUsuario({ username }) {
       )}
 
       {/* Paginador fijo en la parte inferior */}
-      <div className="pagination-container"
+      <div
+        className="pagination-container"
         style={{
           position: "fixed",
           bottom: "20px",
@@ -122,12 +130,14 @@ function PrestacUsuario({ username }) {
         }}
       >
         {Array.from({ length: totalPages }, (_, i) => (
-          <button className="paginator-button "
+          <button
+            className="paginator-button "
             key={i + 1}
             onClick={() => handlePageChange(i + 1)}
             style={{
               padding: "8px 12px",
-              backgroundColor: currentPage === i + 1 ? "var(--button-bg)" : "#e0e0e0",
+              backgroundColor:
+                currentPage === i + 1 ? "var(--button-bg)" : "#e0e0e0",
               color: currentPage === i + 1 ? "var(--navbar-text)" : "#000",
               borderColor: currentPage === i + 1 ? "var(--button-bg)" : "#000",
               border: "none",

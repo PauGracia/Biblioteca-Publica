@@ -32,36 +32,49 @@ class Llengua(models.Model):
 class Autor(models.Model):
     nom = models.CharField(max_length=200, blank=True, null=True)
 
+    def __str__(self):
+        return self.nom
+
 
 
 class Cataleg(models.Model):
     titol = models.CharField(max_length=200)
     titol_original = models.CharField(max_length=200, blank=True, null=True)
-    autor = models.ForeignKey(Autor, on_delete=models.SET_NULL, null=True, blank=True)
+    autor = models.ForeignKey('Autor', on_delete=models.SET_NULL, null=True, blank=True)
     CDU = models.CharField(max_length=40, blank=True, null=True)
     signatura = models.CharField(max_length=40, blank=True, null=True)
-    data_edicio = models.DateField(null=True,blank=True)
-    resum = models.TextField(blank=True,null=True)
-    anotacions = models.TextField(blank=True,null=True)
-    mides = models.CharField(max_length=100,null=True,blank=True)
-    tags = models.ManyToManyField(Categoria,blank=True)
+    data_edicio = models.DateField(null=True, blank=True)
+    resum = models.TextField(blank=True, null=True)
+    anotacions = models.TextField(blank=True, null=True)
+    mides = models.CharField(max_length=100, null=True, blank=True)
+    editorial = models.ForeignKey('Editorial', on_delete=models.SET_NULL, null=True, blank=True)
+    lloc = models.CharField(max_length=100, null=True, blank=True)
+    pais = models.ForeignKey('Pais', on_delete=models.SET_NULL, null=True, blank=True)
+    llengua = models.ForeignKey('Llengua', on_delete=models.SET_NULL, null=True, blank=True)
+    tags = models.ManyToManyField('Categoria', blank=True)
+
     def exemplars(self):
-    	return 0
+        return 0
+
+    def __str__(self):
+        return self.titol
 
 
 # creacion para el autocompletado de admin.py
 
 class Editorial(models.Model):
     nom = models.CharField(max_length=100, blank=True, null=True)
+    def __str__(self):
+        return self.nom
 
 
 class Llibre(Cataleg):
     ISBN = models.CharField(max_length=13, blank=True, null=True)
-    editorial = models.ForeignKey(Editorial, on_delete=models.SET_NULL, null=True, blank=True)
+    #editorial = models.ForeignKey(Editorial, on_delete=models.SET_NULL, null=True, blank=True)
     colleccio = models.CharField(max_length=100, blank=True, null=True)
-    lloc = models.CharField(max_length=100, blank=True, null=True)
-    pais = models.ForeignKey(Pais, on_delete=models.SET_NULL, blank=True, null=True)
-    llengua = models.ForeignKey(Llengua, on_delete=models.SET_NULL, blank=True, null=True)
+    #lloc = models.CharField(max_length=100, blank=True, null=True)
+    #pais = models.ForeignKey(Pais, on_delete=models.SET_NULL, blank=True, null=True)
+    #llengua = models.ForeignKey(Llengua, on_delete=models.SET_NULL, blank=True, null=True)
     numero = models.IntegerField(null=True,blank=True)
     volums = models.IntegerField(null=True,blank=True)
     pagines = models.IntegerField(blank=True,null=True)
@@ -76,10 +89,10 @@ class Revista(Cataleg):
     class Meta:
         verbose_name_plural = "Revistes"
     ISSN = models.CharField(max_length=13, blank=True, null=True)
-    editorial = models.CharField(max_length=100, blank=True, null=True)
-    lloc = models.CharField(max_length=100, blank=True, null=True)
-    pais = models.ForeignKey(Pais, on_delete=models.SET_NULL, blank=True, null=True)
-    llengua = models.ForeignKey(Llengua, on_delete=models.SET_NULL, blank=True, null=True)
+    #editorial = models.CharField(max_length=100, blank=True, null=True)
+    #lloc = models.CharField(max_length=100, blank=True, null=True)
+    #pais = models.ForeignKey(Pais, on_delete=models.SET_NULL, blank=True, null=True)
+    #llengua = models.ForeignKey(Llengua, on_delete=models.SET_NULL, blank=True, null=True)
     numero = models.IntegerField(null=True,blank=True)
     volums = models.IntegerField(null=True,blank=True)
     pagines = models.IntegerField(blank=True,null=True)

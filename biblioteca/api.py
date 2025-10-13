@@ -7,7 +7,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.core.exceptions import ValidationError
 
-from ninja import NinjaAPI, Schema, Field, Router
+from ninja import NinjaAPI, Field, Field, Router
 from ninja.security import HttpBasicAuth, HttpBearer
 from ninja.files import UploadedFile
 
@@ -20,7 +20,10 @@ import re
 
 from typing import List, Optional, Union, Dict
 
-from pydantic import validator
+
+from pydantic import BaseModel, Field, validator
+
+from typing import Optional
 
 # Importación de modelos (si usas wildcard, de lo contrario importa solo lo que necesites)
 from .models import *
@@ -60,18 +63,18 @@ def obtenir_token(request):
     return {"token": request.auth}
 
 # Esquema de respuesta
-class AuthResponse(Schema):
+class AuthResponse(BaseModel):
     exists: bool
     grupos: List[str] = []
     token: Optional[str] = None  
 
 # Esquema para recibir las credenciales
-class LoginSchema(Schema):
+class LoginField(BaseModel):
     username: str
     password: str
 
 @api.post("/login", response=AuthResponse)
-def login(request, payload: LoginSchema):
+def login(request, payload: LoginField):
     username = payload.username
     password = payload.password
     user = authenticate(username=username, password=password)
@@ -97,10 +100,10 @@ def login(request, payload: LoginSchema):
         return {"exists": False, "grupos": [], "token": None}
 
 # Esquema de respuesta para perfil
-class UserProfileRequest(Schema):
+class UserProfileRequest(BaseModel):
     username: str
 
-class UserProfileResponse(Schema):
+class UserProfileResponse(BaseModel):
     username: str
     nombre: str
     email: str
@@ -134,18 +137,18 @@ def perfil(request, data: UserProfileRequest):
     }
 
 # Esquema para actualización de los campos editables
-class PerfilUpdateSchema(Schema):
+class PerfilUpdateField(BaseModel):
     username: str
     imatge: Optional[str] = None
     email: Optional[str] = None
     telefon: Optional[str] = None
 
 # Esquema para la respuesta de la verificación de cambios
-class PerfilCheckResponse(Schema):
+class PerfilCheckResponse(BaseModel):
     modified: bool
 
 @api.post("/verificar-cambios/", response=PerfilCheckResponse)
-def verificar_cambios(request, data: PerfilUpdateSchema):
+def verificar_cambios(request, data: PerfilUpdateField):
     user = get_object_or_404(User, username=data.username)
     current_imatge = user.imatge.url if user.imatge else None
     modified = (
@@ -156,7 +159,7 @@ def verificar_cambios(request, data: PerfilUpdateSchema):
     return {"modified": modified}
 
 @api.patch("/perfil/")
-def actualizar_perfil(request, data: PerfilUpdateSchema):
+def actualizar_perfil(request, data: PerfilUpdateField):
     user = get_object_or_404(User, username=data.username)
     
     if data.imatge is not None:
@@ -173,35 +176,31 @@ def actualizar_perfil(request, data: PerfilUpdateSchema):
 
 # catalogo y ejemplares
 
-class CatalegOut(Schema):
+
+class CatalegOut(BaseModel):
     id: int
     titol: str
-    autor: Optional[str] = None  # campo para mostrar solo el nombre del autor
+    autor: Optional[str] = Field(None)  # campo para mostrar solo el nombre del autor
 
     class Config:
-        orm_mode = True
-
+        from_attributes = True
 
     @validator('autor', pre=True)
     def extract_autor(cls, value):
-        # Si ya es None, devolvemos None.
         if value is None:
             return None
-        # Si value es un objeto con atributo 'nom', lo devolvemos.
         try:
             return value.nom
         except AttributeError:
             return value
 
-        
 
 class LlibreOut(CatalegOut):
-    ISBN: Optional[str]
-    editorial: Optional[str] = None
+    ISBN: Optional[str] = Field(None)
+    editorial: Optional[str] = Field(None)
 
     @validator('editorial', pre=True)
     def extract_editorial(cls, value):
-
         if value is None:
             return None
         try:
@@ -210,7 +209,8 @@ class LlibreOut(CatalegOut):
             return value
 
 
-class ExemplarOut(Schema):
+
+class ExemplarOut(BaseModel):
     id: int
     registre: str
     exclos_prestec: bool
@@ -219,7 +219,7 @@ class ExemplarOut(Schema):
     tipus: str
     centre: dict
 
-class LlibreIn(Schema):
+class LlibreIn(BaseModel):
     titol: str
     editorial: str
 
@@ -277,13 +277,13 @@ def get_exemplars(request):
 
         # Determinar el tipus de l'objecte Cataleg
         if hasattr(cataleg_instance, "llibre"):
-            cataleg_schema = LlibreOut.from_orm(cataleg_instance.llibre)
+            cataleg_Field = LlibreOut.from_orm(cataleg_instance.llibre)
             tipus = "llibre"
         #elif hasattr(cataleg_instance, "dispositiu"):
-        #    cataleg_schema = LlibreOut.from_orm(cataleg_instance.dispositiu)
+        #    cataleg_Field = LlibreOut.from_orm(cataleg_instance.dispositiu)
         # TODO: afegir altres esquemes
         else:
-            cataleg_schema = CatalegOut.from_orm(cataleg_instance)
+            cataleg_Field = CatalegOut.from_orm(cataleg_instance)
             tipus = "indefinit"
 
         # Afegir l'Exemplar amb el Cataleg serialitzat
@@ -293,7 +293,7 @@ def get_exemplars(request):
                 registre=exemplar.registre,
                 exclos_prestec=exemplar.exclos_prestec,
                 baixa=exemplar.baixa,
-                cataleg=cataleg_schema,
+                cataleg=cataleg_Field,
                 tipus=tipus,
                 centre={
                     "id": exemplar.centre.id,
@@ -326,7 +326,7 @@ class UsuariCSV:
             "grup": self.grup
         }
 
-class UploadResponse(Schema):
+class UploadResponse(BaseModel):
     mensaje: str
     errores: Optional[List[Dict]] = None
     usuarios_creados: Optional[int] = 0
@@ -447,14 +447,14 @@ def subir_documento(request, archivo: UploadedFile):
 
 # prestamos
 
-class PrestecOut(Schema):
+class PrestecOut(BaseModel):
     id: int
     data_prestec: date
     data_retorn: Optional[date] = None
     anotacions: Optional[str] = None
     exemplar_titol: str
 
-class PrestecsRequest(Schema):
+class PrestecsRequest(BaseModel):
     username: str
 
 @api.post("/prestecs", response=List[PrestecOut])
@@ -489,10 +489,10 @@ class AuthBearer(HttpBearer):
             return None
 
 # Esquema de búsqueda de usuarios
-class UserSearchSchema(Schema):
+class UserSearchField(BaseModel):
     query: str
 
-class UserSearchResponse(Schema):
+class UserSearchResponse(BaseModel):
     id: int
     first_name: str
     last_name: str
@@ -502,7 +502,7 @@ class UserSearchResponse(Schema):
 
 # Endpoint para buscar usuarios, protegido por autenticación con token
 @api.post("/buscar_usuarios/", response=List[UserSearchResponse])
-def buscar_usuarios(request, data: UserSearchSchema):
+def buscar_usuarios(request, data: UserSearchField):
     try:
        # user = request.auth
         #if not user:
@@ -547,7 +547,7 @@ def buscar_usuarios(request, data: UserSearchSchema):
 
 
 #crear prestamo biblio
-class CrearPrestecRequest(Schema):
+class CrearPrestecRequest(BaseModel):
     usuari: int
     exemplar: int
     data_prestec: Optional[date] = None

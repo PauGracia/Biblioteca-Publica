@@ -1,6 +1,6 @@
 
 // Constantes de configuración
-const BASE_URL = 'https://biblioteca5.ieti.site/api'; // URL base para la API
+const BASE_URL = 'http://127.0.0.1:8000/api'; // URL base para la API
 const LLIBRES_ENDPOINT = '/llibres'; // Endpoint para los libros
 const API_URL = `${BASE_URL}${LLIBRES_ENDPOINT}`;
 

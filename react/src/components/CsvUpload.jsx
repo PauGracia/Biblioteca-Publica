@@ -24,8 +24,7 @@ const CsvUpload = () => {
 
     try {
       const response = await fetch(
-         "https://biblioteca5.ieti.site/api/subir-documento/",
-        //"http://127.0.0.1:8000/api/subir-documento/",
+        "http://127.0.0.1:8000/api/subir-documento/",
         {
           method: "POST",
           body: formData,
@@ -37,7 +36,11 @@ const CsvUpload = () => {
 
       if (response.ok) {
         console.log("OK:", data);
-        setMessage(`✅ Fitxer processat correctament. Usuaris creats: ${data.usuarios_creados || 0}`);
+        setMessage(
+          `✅ Fitxer processat correctament. Usuaris creats: ${
+            data.usuarios_creados || 0
+          }`
+        );
         setErrores(data.errores || []);
       } else {
         console.log("ERROR:", data);
@@ -58,13 +61,17 @@ const CsvUpload = () => {
 
   return (
     <div className="container">
-      <div className="mt-24 p-6 max-w-md mx-auto bg-gray-200 rounded-lg shadow-md border-2 border-gray-300"
-          style={{
-            backgroundColor: "var(--card-bg)",
-            borderColor: "var(--border-color)",
-          }}>
-        <h2 className="text-black text-3xl font-semibold text-center mb-4"
-          style={{ color: "var(--text-color)" }}>
+      <div
+        className="mt-24 p-6 max-w-md mx-auto bg-gray-200 rounded-lg shadow-md border-2 border-gray-300"
+        style={{
+          backgroundColor: "var(--card-bg)",
+          borderColor: "var(--border-color)",
+        }}
+      >
+        <h2
+          className="text-black text-3xl font-semibold text-center mb-4"
+          style={{ color: "var(--text-color)" }}
+        >
           Pujar CSV
         </h2>
 

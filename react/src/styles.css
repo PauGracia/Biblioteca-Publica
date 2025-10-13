@@ -5,19 +5,19 @@
 :root {
   --bg-color: #f5f5f5;
   --text-color: #333;
-  --input-text: #333  ;
+  --input-text: #333;
   --navbar-bg: #214093;
   --navbar-text: #fff;
-  --navbar-hover: #DDE1F1;
-  --secondary-color: #90A2C7;
-  --card-bg: #DDE1F1;
-  --card-shadow: rgba(0,0,0,0.1);
+  --navbar-hover: #dde1f1;
+  --secondary-color: #90a2c7;
+  --card-bg: #dde1f1;
+  --card-shadow: rgba(0, 0, 0, 0.1);
   --button-bg: #214093;
   --button-hover-bg: #1a3176;
-  --border-color: #DDE1F1;
+  --border-color: #dde1f1;
   --table-bg-hover: #ccc;
-  --table-bg:  #DDE1F1;
-  --etiqueta-table-bg:  #ffffff;
+  --table-bg: #dde1f1;
+  --etiqueta-table-bg: #ffffff;
   --etiqueta-text-color: #000000;
 }
 
@@ -32,15 +32,14 @@
     --navbar-hover: #4352a9;
     --secondary-color: #3949ab;
     --card-bg: #1e1e1e;
-    --card-shadow: rgba(0,0,0,0.5);
+    --card-shadow: rgba(0, 0, 0, 0.5);
     --button-bg: #3949ab;
     --button-hover-bg: #202e8d;
     --border-color: #333;
     --table-bg-hover: #383845;
-    --table-bg:  #333;
-    --etiqueta-table-bg:  #333;
+    --table-bg: #333;
+    --etiqueta-table-bg: #333;
     --etiqueta-text-color: #e0e0e0;
-
   }
 }
 
@@ -52,56 +51,47 @@
   --navbar-bg: #214093;
   --navbar-text: #fff;
   --navbar-hover: #000000;
-  --secondary-color: #90A2C7;
-  --card-bg: #DDE1F1;
-  --card-shadow: rgba(0,0,0,0.1);
+  --secondary-color: #90a2c7;
+  --card-bg: #dde1f1;
+  --card-shadow: rgba(0, 0, 0, 0.1);
   --button-bg: #214093;
   --button-hover-bg: #1a3176;
-  --border-color: #DDE1F1;  
+  --border-color: #dde1f1;
   --table-bg-hover: #ccc;
-  --table-bg:  #DDE1F1;
-  --etiqueta-table-bg:  #ffffff;
+  --table-bg: #dde1f1;
+  --etiqueta-table-bg: #ffffff;
   --etiqueta-text-color: #000000;
 }
 .theme-dark {
   --bg-color: #1b1a1a;
-    --text-color: #e0e0e0;
-    --input-text: #395dc0;
-    --navbar-text: #e0e0e0;
-    --navbar-bg: #395dc0;
-    --navbar-hover: #4352a9;
-    --secondary-color: #3949ab;
-    --card-bg: #1e1e1e;
-    --card-shadow: rgba(0,0,0,0.5);
-    --button-bg: #3949ab;
-    --button-hover-bg: #202e8d;
-    --border-color: #333;
-    --table-bg-hover: #383845;
-    --table-bg:  #333;
-    --etiqueta-table-bg:  #333;
-    --etiqueta-text-color: #e0e0e0;
+  --text-color: #e0e0e0;
+  --input-text: #395dc0;
+  --navbar-text: #e0e0e0;
+  --navbar-bg: #395dc0;
+  --navbar-hover: #4352a9;
+  --secondary-color: #3949ab;
+  --card-bg: #1e1e1e;
+  --card-shadow: rgba(0, 0, 0, 0.5);
+  --button-bg: #3949ab;
+  --button-hover-bg: #202e8d;
+  --border-color: #333;
+  --table-bg-hover: #383845;
+  --table-bg: #333;
+  --etiqueta-table-bg: #333;
+  --etiqueta-text-color: #e0e0e0;
 }
-
-
 
 /*==============================
   2. Tus estilos (actualizados con variables)
 ===============================*/
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
   margin: 0;
   padding: 0;
-
-  
-  
 }
-
-
-
-
 
 .table {
   width: 1000px;
@@ -124,7 +114,9 @@ body {
 }
 
 .table tr:hover {
-  background-color: var(--table-bg-hover); /* suave resaltado al pasar el ratón */
+  background-color: var(
+    --table-bg-hover
+  ); /* suave resaltado al pasar el ratón */
   transition: background-color 0.3s ease;
 }
 
@@ -158,7 +150,7 @@ input {
   color: var(--navbar-text);
 }
 
-.sidebarButton{
+.sidebarButton {
   margin-top: 50px;
   display: flex;
   justify-content: flex-end;
@@ -199,12 +191,10 @@ input {
   color: white;
   padding-left: 0.75rem;
   padding-right: 0.75rem;
-  font-size: 0.875rem;      
+  font-size: 0.875rem;
   display: inline-block;
   white-space: nowrap;
 }
-
-
 
 .nav-menu {
   display: flex;
@@ -276,16 +266,26 @@ input {
   transition: all 0.3s ease;
 }
 
-.hamburger span:nth-child(1) { top: 0; }
-.hamburger span:nth-child(2) { top: 8px; }
-.hamburger span:nth-child(3) { top: 16px; }
+.hamburger span:nth-child(1) {
+  top: 0;
+}
+.hamburger span:nth-child(2) {
+  top: 8px;
+}
+.hamburger span:nth-child(3) {
+  top: 16px;
+}
 
 .hamburger.open span:nth-child(1) {
-  top: 8px; transform: rotate(45deg);
+  top: 8px;
+  transform: rotate(45deg);
 }
-.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
 .hamburger.open span:nth-child(3) {
-  top: 8px; transform: rotate(-45deg);
+  top: 8px;
+  transform: rotate(-45deg);
 }
 
 /* Layout */
@@ -308,12 +308,6 @@ input {
   padding: 20px;
 }
 
-
-
-
-
-
-
 .container-books {
   width: 600px !important;
   order: 2;
@@ -329,8 +323,9 @@ input {
   flex-direction: column;
 }
 
+/*logo de biblio*/
 .logo {
-  height: 80px;
+  height: 100px;
   margin-bottom: 15px;
 }
 
@@ -339,7 +334,7 @@ h1 {
   color: var(--navbar-bg);
   font-size: 2.5rem;
   margin: 0 0 10px 0;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
@@ -377,7 +372,7 @@ h3 {
   outline: none;
   transition: all 0.3s;
   box-shadow: 0 2px 5px var(--card-shadow);
-  color: var(--input-text) ; 
+  color: var(--input-text);
   background: none;
 }
 
@@ -505,10 +500,9 @@ h3 {
 }
 
 .gif-banner {
- 
-  margin: 20px auto 0; 
-  display: block; 
-  width: fit-content; 
+  margin: 20px auto 0;
+  display: block;
+  width: fit-content;
 }
 
 .books-grid {
@@ -797,7 +791,6 @@ h3 {
   text-decoration: underline;
 }
 
-
 .pagination-container {
   margin-top: 30px;
   display: flex;
@@ -863,7 +856,6 @@ h3 {
   align-items: center;
   margin-top: 10px;
 }
-
 
 /* Estilos para la pagina de exemplares y impresion de etiquetas */
 
@@ -932,22 +924,18 @@ h3 {
   margin-top: 0.3rem;
 }
 
-.batch-actions{
+.batch-actions {
   display: flex;
   justify-content: space-between;
   padding: 20px;
 }
 
-.batch-btn{
-
+.batch-btn {
   background-color: var(--table-bg);
   padding: 10px;
-
 }
 
-
-
-.add-remove-btn{
+.add-remove-btn {
   margin-left: 40px;
   background-color: var(--table-bg);
   padding: 10px;
@@ -988,14 +976,13 @@ h3 {
 
 .carrito-item {
   display: flex;
-  align-items: center;        /* Centra verticalmente el texto y el botón */
+  align-items: center; /* Centra verticalmente el texto y el botón */
   justify-content: space-between; /* Espacia al máximo el contenido */
   /* opcional: padding, border, etc. */
 }
 .carrito-item .remove-btn:hover {
   color: red;
 }
-
 
 /* impresion de etiquetas */
 
@@ -1053,26 +1040,23 @@ h3 {
 }
 
 .barcodeImg {
-  
   width: 100%;
   display: block;
   height: 35px;
   padding: 1mm;
-
 }
 
 .labelCdu {
   margin-left: 10px;
   font-style: italic;
   font-size: 8pt;
-
 }
 
-.labelCDU{
+.labelCDU {
   margin-left: 10px;
   font-weight: bold;
-  font-style: italic ;
-  font-size: 10pt ;  
+  font-style: italic;
+  font-size: 10pt;
   text-align: center;
   width: 100%;
 }
@@ -1081,26 +1065,25 @@ h3 {
 
 */
 
-
 /* Adaptaciones para móviles */
 @media (max-width: 768px) {
   .pagination-container {
     flex-direction: column;
     gap: 15px;
   }
-  
+
   .paginator-nav {
     width: 100%;
     order: 2;
   }
-  
+
   .page-numbers {
     order: 1;
   }
   .books-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .container {
     padding: 15px;
   }
@@ -1114,41 +1097,41 @@ h3 {
     max-width: 350px;
     padding: 15px;
   }
-  
+
   h1 {
     font-size: 2rem;
   }
-  
+
   .book-details-card {
     padding: 20px;
   }
-  
+
   .search-input {
     font-size: 14px;
     padding: 10px 15px;
   }
-  
+
   .search-button {
     padding: 10px 15px;
     font-size: 14px;
   }
-  
+
   .search-status {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .login-card {
     padding: 20px;
   }
-  
+
   /* Responsive navbar */
   .menu-icon {
     display: block;
     z-index: 10;
   }
-  
+
   .nav-menu {
     display: flex;
     flex-direction: column;
@@ -1161,39 +1144,36 @@ h3 {
     transition: all 0.5s ease;
     padding: 20px 0;
   }
-  
+
   .nav-menu.active {
     left: 0;
   }
-  
+
   .nav-item {
     margin: 10px 0;
     width: 100%;
     text-align: center;
   }
-  
+
   .nav-link {
     display: block;
     width: 100%;
     padding: 12px 0;
   }
-  
+
   .logout-btn {
     width: 50%;
     margin: 10px auto;
     padding: 12px 0;
   }
 
-
   .user-greeting {
-    font-size: 1rem;  
+    font-size: 1rem;
   }
 
   .navbar-logo {
     font-size: 1rem;
-    
   }
-  
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {

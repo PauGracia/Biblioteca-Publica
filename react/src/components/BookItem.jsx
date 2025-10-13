@@ -1,5 +1,4 @@
 function BookItem({ book, onSelect, totalExemplars }) {
-
   return (
     <div className="book-card">
       <h3 className="book-title h3">{book.titol}</h3>
@@ -25,13 +24,9 @@ function BookItem({ book, onSelect, totalExemplars }) {
         </p>
       </div>
 
-      <button 
-        className="view-details-btn" 
-        onClick={() => onSelect(book.id)}
-      >
+      <button className="view-details-btn" onClick={() => onSelect(book.id)}>
         Veure detalls
       </button>
-
     </div>
   );
 }

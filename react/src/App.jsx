@@ -15,8 +15,6 @@ import CrearPrestac from "./components/CrearPrestac";
 import Exemplars from "./pages/Exemplars";
 import CarritoExemplars from "./components/CarritoExemplars";
 
-
-
 function App() {
   // Estados generales
   const [isAuthenticated, setAuthenticated] = useState(false);
@@ -27,15 +25,11 @@ function App() {
   const [page, setPage] = useState("bookList");
   const [selectedBookId, setSelectedBookId] = useState(null);
 
-
-
-
   const handleNavigateToEditProfile = () => setPage("Perfil");
   const handleNavigateToSeeLandingPage = () => setPage("bookList");
   const handleNavigateToLoginPage = () => setPage("login");
   const handleNavigateToCSVPage = () => setPage("CSV");
   const handleNavigateToPrestacPage = () => setPage("Prestac");
-  
 
   const handleSelectBook = (bookId) => {
     setSelectedBookId(bookId);
@@ -48,41 +42,33 @@ function App() {
   };
 
   const handleNavigateToExemplars = () => {
-console.log("handleNavigateToExemplars");
+    console.log("handleNavigateToExemplars");
     setPage("exemplars");
   };
 
   const handleNavigateToCarrito = () => {
     console.log("handleNavigateToCarrito");
-        setPage("carrito");
-      };
-
-
-
+    setPage("carrito");
+  };
 
   // Lógica para abrir el componente CrearReserva
 
-    //boton reserva biblio
+  //boton reserva biblio
   const [crearPrestacBookId, setCrearPrestacBookId] = useState(null);
   const [crearPrestacBookTitle, setCrearPrestacBookTitle] = useState("");
-  
+
   const handleAbrirCrearPrestac = (bookId, bookTitle) => {
-    console.log("Recibido en handleAbrirCrearPrestac:", bookId, bookTitle); 
+    console.log("Recibido en handleAbrirCrearPrestac:", bookId, bookTitle);
     setCrearPrestacBookId(bookId);
     setCrearPrestacBookTitle(bookTitle);
     setPage("CrearPrestac");
   };
-  
-
-  
-  
-
 
   useEffect(() => {
     const storedToken = localStorage.getItem("authToken");
     const storedRole = localStorage.getItem("role");
     const storedUser = localStorage.getItem("username");
-  
+
     if (storedToken && storedRole && storedUser) {
       setToken(storedToken);
       setRole(storedRole);
@@ -90,7 +76,6 @@ console.log("handleNavigateToExemplars");
       setAuthenticated(true);
     }
   }, []);
-  
 
   let content = null;
 
@@ -122,33 +107,38 @@ console.log("handleNavigateToExemplars");
               onCatalagClick={handleNavigateToSeeLandingPage}
               backToLogin={handleNavigateToSeeLandingPage}
             />
-
           ) : page === "CrearPrestac" ? (
-            <CrearPrestac 
-            bookId={crearPrestacBookId} 
-            
-            onBack={() => setPage("detail")}  
-          />
-
+            <CrearPrestac
+              bookId={crearPrestacBookId}
+              onBack={() => setPage("detail")}
+            />
           ) : page === "bookList" ? (
             <BookList onSelectBook={handleSelectBook} />
           ) : page === "detail" ? (
-            <BookDetails 
-              bookId={selectedBookId} 
-              onBack={handleBackFromDetails} 
+            <BookDetails
+              bookId={selectedBookId}
+              onBack={handleBackFromDetails}
               extraProp="Valor extra"
               userRole={role}
-              onCrearPrestac={handleAbrirCrearPrestac}  
-              />
+              onCrearPrestac={handleAbrirCrearPrestac}
+            />
           ) : null}
         </div>
-        <a href="https://www.iesesteveterradas.cat/" target="_blank" rel="noopener noreferrer">
-          <img src={gifBanner} alt="GIF de final de página" className="gif-banner" />
+        <a
+          href="https://www.iesesteveterradas.cat/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src={gifBanner}
+            alt="GIF de final de página"
+            className="gif-banner"
+          />
         </a>
       </>
     );
   } else if (role === "admin") {
-    window.location.href = 'https://biblioteca5.ieti.site/admin ';
+    window.location.href = "http://127.0.0.1:8000/admin";
 
     return null;
   } else if (role === "bibliotecario") {
@@ -172,7 +162,6 @@ console.log("handleNavigateToExemplars");
           />
           {page === "Perfil" ? (
             <Perfil username={user} onBack={handleNavigateToSeeLandingPage} />
-         
           ) : page === "bookList" ? (
             <BookList onSelectBook={handleSelectBook} />
           ) : page === "CSV" ? (
@@ -181,18 +170,18 @@ console.log("handleNavigateToExemplars");
             <Prestacs username={user} />
           ) : page === "detail" ? (
             <BookDetails
-            bookId={selectedBookId}
-            onBack={handleBackFromDetails}
-            extraProp="Valor extra" 
-            userRole={role} 
-            onCrearPrestac={handleAbrirCrearPrestac} 
-          />
-        ) : page === "CrearPrestac" ? (
-          <CrearPrestac 
-            bookId={crearPrestacBookId} 
-            bookTitle={crearPrestacBookTitle}
-            onBack={() => setPage("detail")} 
-          />
+              bookId={selectedBookId}
+              onBack={handleBackFromDetails}
+              extraProp="Valor extra"
+              userRole={role}
+              onCrearPrestac={handleAbrirCrearPrestac}
+            />
+          ) : page === "CrearPrestac" ? (
+            <CrearPrestac
+              bookId={crearPrestacBookId}
+              bookTitle={crearPrestacBookTitle}
+              onBack={() => setPage("detail")}
+            />
           ) : page === "exemplars" ? (
             <Exemplars goToCarrito={handleNavigateToCarrito} />
           ) : page === "carrito" ? (
@@ -226,13 +215,13 @@ console.log("handleNavigateToExemplars");
           ) : page === "Prestac" ? (
             <PrestacUsuario username={user} />
           ) : page === "detail" ? (
-            <BookDetails 
-            bookId={selectedBookId} 
-            onBack={handleBackFromDetails} 
-            extraProp="Valor extra"
-            userRole={role}
-            onCrearPrestac={handleAbrirCrearPrestac} 
-          />
+            <BookDetails
+              bookId={selectedBookId}
+              onBack={handleBackFromDetails}
+              extraProp="Valor extra"
+              userRole={role}
+              onCrearPrestac={handleAbrirCrearPrestac}
+            />
           ) : null}
         </div>
       </>
@@ -254,8 +243,7 @@ console.log("handleNavigateToExemplars");
     content = <p>Rol desconegut</p>;
   }
 
-  return <div >{content}</div>;
-
+  return <div>{content}</div>;
 }
 
 export default App;

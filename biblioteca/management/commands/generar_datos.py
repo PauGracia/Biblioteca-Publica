@@ -21,6 +21,34 @@ from biblioteca.models import (
     Centre, Grup, Revista, CD, DVD, BR, Dispositiu, Imatge, Autor, Editorial
 )
 
+
+from django.contrib.auth import get_user_model
+
+def crear_superuser():
+    User = get_user_model()
+    if not User.objects.filter(username="admin").exists():
+        User.objects.create_superuser(
+            username="admin",
+            email="admin@example.com",
+            password="admin",
+            first_name="Admin",
+            last_name="User"
+        )
+        print("Superusuario 'admin' creado con contraseña 'admin'.")
+    else:
+        print("Superusuario 'admin' ya existe.")
+
+
+from datetime import datetime, timedelta, time
+
+def timedelta_a_time(td):
+    total_seconds = int(td.total_seconds())
+    horas = (total_seconds // 3600) % 24
+    minutos = (total_seconds % 3600) // 60
+    segundos = total_seconds % 60
+    return time(horas, minutos, segundos)
+
+
 def limpiar_db():
     """Opcional: Limpiar la base de datos existente (solo para desarrollo)"""
     print("Limpiando base de datos...")
@@ -122,7 +150,11 @@ def crear_autores_y_libros():
         for _ in range(num_libros):
             if libros_creados >= 1000:
                 break
-            titulo = fake.sentence(nb_words=3).replace('.', '').title()
+            titulo = random.choice([
+                f"{fake.word(ext_word_list=['Amor', 'Fuego', 'Sueños', 'Sombras', 'Destino', 'Hielo'])} Eterno",
+                f"El {fake.word(ext_word_list=['Viaje', 'Bosque', 'Silencio', 'Misterio', 'Mar', 'Desierto'])}",
+                f"{fake.word(ext_word_list=['Último', 'Gran', 'Nuevo','Primero'])} {fake.word(ext_word_list=['Héroe', 'Secreto', 'Destino', 'Historia'])}"
+                ])
             libro = Llibre.objects.create(
                 titol=titulo,
                 titol_original=titulo if random.random() < 0.3 else fake.sentence(nb_words=3).replace('.', '').title(),
@@ -174,7 +206,11 @@ def crear_autores_y_libros():
     # Si aún no se han creado 1000 libros, se crean libros adicionales
     while libros_creados < 1000:
         autor = random.choice(autors)
-        titulo = fake.sentence(nb_words=3).replace('.', '').title()
+        titulo = random.choice([
+                f"{fake.word(ext_word_list=['Amor', 'Fuego', 'Sueños', 'Sombras', 'Destino', 'Hielo'])} Eterno",
+                f"El {fake.word(ext_word_list=['Viaje', 'Bosque', 'Silencio', 'Misterio', 'Mar', 'Desierto'])}",
+                f"{fake.word(ext_word_list=['Último', 'Gran', 'Nuevo','Primero'])} {fake.word(ext_word_list=['Héroe', 'Secreto', 'Destino', 'Historia'])}"
+                ])
         libro = Llibre.objects.create(
             titol=titulo,
             titol_original=titulo if random.random() < 0.3 else fake.sentence(nb_words=3).replace('.', '').title(),
@@ -220,29 +256,50 @@ def crear_autores_y_libros():
     print(f"Final: {libros_creados} libros y {ejemplares_creados} ejemplares")
 
 def crear_otros_materiales():
-    print("Creando otros materiales...")
+    print("Creando otros materiales (Revistas, CDs, DVDs, BRs, Dispositivos)...")
+
+    autores = list(Autor.objects.all())  
     categorias = list(Categoria.objects.all())
     paises = list(Pais.objects.all())
     lenguas = list(Llengua.objects.all())
-    
-    # Aseguramos un centro por defecto
+    editoriales = list(Editorial.objects.all())
+
+    # --- Comprobaciones para que no falle random.choice ---
+    if not editoriales:
+        editoriales = [Editorial.objects.create(nom=fake.company()) for _ in range(5)]
+    if not paises:
+        paises = [Pais.objects.create(nom=fake.country()) for _ in range(5)]
+    if not lenguas:
+        lenguas = [Llengua.objects.create(nom=fake.language_name()) for _ in range(5)]
+    if not categorias:
+        categorias = [Categoria.objects.create(nom=fake.word().capitalize()) for _ in range(5)]
+
+
     default_centre = Centre.objects.first()
     if not default_centre:
         default_centre = Centre.objects.create(nom="Esteve Terradas i Illa")
-    
-    # Revistas (50 unidades)
-    for i in range(50):
+
+    # -------- REVISTAS --------
+
+    editoriales = list(Editorial.objects.all())
+    if not editoriales:
+        editoriales = [Editorial.objects.create(nom=fake.company()) for _ in range(5)]
+
+    print(" → Revistas...")
+    revistas_temas = ["Ciencia", "Historia", "Moda", "Viajes", "Tecnología", "Deporte", "Cine", "Educación", "Música", "Economia"]
+    for _ in range(50):
+        tema = random.choice(revistas_temas)
         revista = Revista.objects.create(
-            titol=f"Revista {fake.word().capitalize()} {fake.word().capitalize()}",
-            data_edicio=fake.date_between(start_date='-20y', end_date='today'),
+            titol=f"{tema} Hoy",
+            data_edicio=fake.date_between(start_date='-10y', end_date='today'),
             resum=fake.paragraph(nb_sentences=3),
             ISSN=fake.bothify("####-####"),
-            editorial=fake.company(),  # Campo CharField, se asigna un string
-            lloc=fake.city(),
-            pais=random.choice(paises),
-            llengua=random.choice(lenguas),
-            numero=random.randint(1, 100),
-            pagines=random.randint(20, 200)
+            editorial=random.choice(editoriales),  
+            lloc=fake.city(),                        
+            pais=random.choice(paises),              
+            llengua=random.choice(lenguas),          
+            numero=random.randint(1, 200),
+            pagines=random.randint(30, 150)
         )
         revista.tags.set(random.sample(categorias, random.randint(1, 3)))
         for _ in range(random.randint(1, 3)):
@@ -253,33 +310,163 @@ def crear_otros_materiales():
                 baixa=random.random() < 0.05,
                 centre=default_centre
             )
+
     
-    # CDs (30 unidades) – en este caso, el campo "discografica" es un CharField
-    for i in range(30):
-        cd = CD.objects.create(
-            titol=f"{fake.word().capitalize()} {fake.word().capitalize()}",
-            autor=fake.name(),
-            data_edicio=fake.date_between(start_date='-30y', end_date='today'),
-            discografica=fake.company(),
-            estil=random.choice(["Pop", "Rock", "Clásica", "Jazz", "Electrónica", "Hip-Hop", "Flamenco", "Salsa"]),
-            duracio=make_aware(datetime.now() + timedelta(minutes=random.randint(30, 120)))
+
+    # -------- CDs --------
+    print(" → CDs...")
+    estilos_musicales = ["Pop", "Rock", "Jazz", "Clásica", "Blues", "Hip-Hop", "Electrónica", "Reggaeton", "Salsa"]
+
+    for _ in range(40):
+        try:
+            titulo = random.choice([
+                fake.word(ext_word_list=['Sueño','Noche','Amor','Misterio','Destino']).capitalize(),
+                f"{fake.word(ext_word_list=['Sueño','Noche','Amor'])} Eterno",
+                f"{fake.word(ext_word_list=['Gran','Nuevo','Último'])} Álbum"
+            ])
+            duracion = timedelta(minutes=random.randint(30, 90))
+
+            cd = CD.objects.create(
+                titol=titulo,
+                autor=random.choice(autores),
+                data_edicio=fake.date_between(start_date='-20y', end_date='today'),
+                discografica=fake.company(),
+                estil=random.choice(estilos_musicales),
+                duracio=timedelta_a_time(duracion),
+                editorial=random.choice(editoriales),
+                pais=random.choice(paises),
+                llengua=random.choice(lenguas),
+                lloc=fake.city()
+            )
+
+            cd.tags.set(random.sample(categorias, random.randint(1, 2)))
+            for _ in range(random.randint(1, 3)):
+                Exemplar.objects.create(
+                    cataleg=cd,
+                    registre=f"CD-{fake.bothify('####-####')}",
+                    exclos_prestec=random.random() < 0.2,
+                    baixa=random.random() < 0.05,
+                    centre=default_centre
+                )
+
+        except Exception as e:
+            print("❌ Error creando CD:", e)
+            continue  # ✅ Ahora sí dentro del for
+
+    
+
+    # -------- DVDs --------
+    print(" → DVDs...")
+    generos_peliculas = ["Acción", "Drama", "Comedia", "Aventura", "Terror", "Ciencia Ficción", "Romance"]
+    for _ in range(40):
+        try:
+            titulo = random.choice([
+                f"{fake.word(ext_word_list=['Legado','Ascenso','Secreto','Misterio','Aventura'])}",
+                f"{fake.word(ext_word_list=['Última','Nueva','Gran'])} Historia",
+                f"{fake.word(ext_word_list=['Sombras','Sueños','Destino'])} Perdido"
+            ])
+            duracion = timedelta(minutes=random.randint(60, 180))
+            dvd = DVD.objects.create(
+                titol=titulo,
+                autor=random.choice(autores),
+                data_edicio=fake.date_between(start_date='-15y', end_date='today'),
+                productora=fake.company(),
+                duracio=timedelta_a_time(duracion),
+                editorial=random.choice(editoriales),
+                pais=random.choice(paises),
+                llengua=random.choice(lenguas),
+                lloc=fake.city()
+            )
+
+            dvd.tags.set(random.sample(categorias, random.randint(1, 3)))
+            for _ in range(random.randint(1, 4)):
+                Exemplar.objects.create(
+                    cataleg=dvd,
+                    registre=f"DVD-{fake.bothify('####-####')}",
+                    exclos_prestec=random.random() < 0.15,
+                    baixa=random.random() < 0.05,
+                    centre=default_centre
+                )
+        except Exception as e:
+            print("❌ Error creando dvd:", e)
+            continue
+
+    
+
+    # -------- BLU-RAY --------
+    print(" → Blu-rays...")
+    for _ in range(30):
+        try:
+            titulo = random.choice([
+                f"{fake.word(ext_word_list=['Legado','Ascenso','Secreto','Misterio','Aventura'])}",
+                f"{fake.word(ext_word_list=['Última','Nueva','Gran'])} Historia",
+                f"{fake.word(ext_word_list=['Sombras','Sueños','Destino'])} Perdido"
+            ])
+            duracion = timedelta(minutes=random.randint(80, 200))
+            br = BR.objects.create(
+                titol=titulo,
+                autor=random.choice(autores),
+                data_edicio=fake.date_between(start_date='-10y', end_date='today'),
+                productora=fake.company(),
+                duracio=timedelta_a_time(duracion),
+                editorial=random.choice(editoriales),
+                pais=random.choice(paises),
+                llengua=random.choice(lenguas),
+                lloc=fake.city()
+            )
+
+            br.tags.set(random.sample(categorias, random.randint(1, 3)))
+            for _ in range(random.randint(1, 3)):
+                Exemplar.objects.create(
+                    cataleg=br,
+                    registre=f"BR-{fake.bothify('####-####')}",
+                    exclos_prestec=random.random() < 0.15,
+                    baixa=random.random() < 0.05,
+                    centre=default_centre
+                )
+        except Exception as e:
+            print("❌ Error creando blu:", e)
+            continue
+
+    # -------- DISPOSITIVOS --------
+    print(" → Dispositivos...")
+    marcas = ["Apple", "Samsung", "HP", "Dell", "Lenovo", "Asus", "Acer", "Sony", "ACME"]
+    modelos = ["Pro", "Max", "Air", "Plus", "Mini", "Ultra"]
+    tipos = ["Laptop", "Tablet", "Smartphone", "Monitor", "Router", "Impresora", "Proyector"]
+
+    for _ in range(25):
+        tipo = random.choice(tipos)
+        marca = random.choice(marcas)
+        modelo = random.choice(modelos)
+        dispositivo = Dispositiu.objects.create(
+            titol=f"{marca} {tipo}",
+            data_edicio=fake.date_between(start_date='-5y', end_date='today'),
+            marca=marca,
+            model=modelo,
+            editorial=random.choice(editoriales),
+            pais=random.choice(paises),
+            llengua=random.choice(lenguas),
+            lloc=fake.city()
         )
-        cd.tags.set(random.sample(categorias, random.randint(1, 2)))
-        for _ in range(random.randint(1, 3)):
+
+        dispositivo.tags.set(random.sample(categorias, random.randint(1, 2)))
+        for _ in range(random.randint(1, 2)):
             Exemplar.objects.create(
-                cataleg=cd,
-                registre=f"CD-{fake.bothify('####-####')}",
-                exclos_prestec=random.random() < 0.2,
+                cataleg=dispositivo,
+                registre=f"DISP-{fake.bothify('####-####')}",
+                exclos_prestec=random.random() < 0.3,
                 baixa=random.random() < 0.05,
                 centre=default_centre
             )
+
+    print(" → Materiales adicionales creados correctamente.")
 
 def crear_centros_y_ciclos():
     print("Creando centros y ciclos formativos...")
     centros = []
     for i in range(5):
         centro = Centre.objects.create(
-            nom=f"Instituto {fake.word().capitalize()}"
+            nom=f"{fake.first_name()} {fake.last_name()}"
         )
         centros.append(centro)
     
@@ -354,13 +541,14 @@ class Command(BaseCommand):
         self.stdout.write("Este proceso puede tardar varios minutos...")
         
         # Si deseas limpiar la base de datos, descomenta la siguiente línea:
-        # limpiar_db()
+        limpiar_db()
         
         crear_categorias()
         crear_paises_y_lenguas()
         crear_autores_y_libros()
-        # crear_otros_materiales()  # Descomenta si deseas crear otros materiales
+        crear_otros_materiales()  
         crear_usuarios_y_prestamos()
+        crear_superuser()
         
         self.stdout.write("=== GENERACIÓN DE DATOS COMPLETADA ===")
         self.stdout.write(f"Total libros creados: {Llibre.objects.count()}")

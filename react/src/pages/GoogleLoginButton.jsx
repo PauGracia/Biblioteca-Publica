@@ -13,10 +13,10 @@ const GoogleLoginButton = ({ onLoginSuccess, onLoginError }) => {
       console.log("Google User Data:", decoded);
 
       // Enviar el token al backend para validarlo
-      const response = await fetch("https://biblioteca5.ieti.site/api/auth/google/", {
+      const response = await fetch("http://127.0.0.1:8000/api/auth/google/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: credential })
+        body: JSON.stringify({ token: credential }),
       });
 
       if (!response.ok) throw new Error("Auth failed");
@@ -36,7 +36,9 @@ const GoogleLoginButton = ({ onLoginSuccess, onLoginError }) => {
   };
 
   return (
-    <div style={{ margin: "20px 0", display: "flex", justifyContent: "center" }}>
+    <div
+      style={{ margin: "20px 0", display: "flex", justifyContent: "center" }}
+    >
       <GoogleLogin
         onSuccess={handleSuccess}
         onError={() => console.error("Google Login Failed")}
