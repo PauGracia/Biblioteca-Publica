@@ -1,7 +1,16 @@
 import React from "react";
 import Button from "./Button";
 
-function Sidebar({ onCSVClick, onPrestacClick, setAuthenticated, style,onExemplarsClick, isToken, setRole, ...others }) {
+function Sidebar({
+  onCSVClick,
+  onPrestacClick,
+  setAuthenticated,
+  style,
+  onExemplarsClick,
+  isToken,
+  role,
+  ...others
+}) {
   return (
     <div className="sidebar">
       <div
@@ -18,31 +27,25 @@ function Sidebar({ onCSVClick, onPrestacClick, setAuthenticated, style,onExempla
           alignItems: "center",
           zIndex: 999,
           marginRight: "10px",
-
-
         }}
         {...others}
       >
         {/* div para crear espacio en la parte superior */}
         <div style={{ height: "20px" }}></div>
-        {isToken && setRole === "bibliotecario" && (<>
-          <div className="sidebarButton">
-            <Button text="Carrega de perfils en CSV"
-              onClick={onCSVClick} />
-          </div>
+        {isToken && role === "bibliotecari" && (
+          <>
+            <div className="sidebarButton">
+              <Button text="Carrega de perfils en CSV" onClick={onCSVClick} />
+            </div>
 
-          <div className="sidebarButton">
-            <Button text="Cercar exemplars"
-              onClick={onExemplarsClick} />
-
-          </div>
-        </>
-
+            <div className="sidebarButton">
+              <Button text="Cercar exemplars" onClick={onExemplarsClick} />
+            </div>
+          </>
         )}
         {isToken && (
           <div className="sidebarButton">
-            <Button text="Préstecs"
-              onClick={onPrestacClick} />
+            <Button text="Préstecs" onClick={onPrestacClick} />
           </div>
         )}
         {/* Aquí puedes añadir más opciones del sidebar si lo deseas */}

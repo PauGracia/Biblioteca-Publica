@@ -305,6 +305,49 @@ def get_exemplars(request):
 
     return result
 
+
+@api.get("/llibres/{id}/exemplars", response=List[ExemplarOut])
+def get_exemplars_by_llibre(request, id: int):
+    exemplars = Exemplar.objects.select_related(
+        "cataleg__llibre",
+        # "cataleg__revista",
+        #"cataleg__cd",
+        # "cataleg__dvd",
+        # "cataleg__br",
+        # "cataleg__dispositiu",
+        # "centre",
+    ).filter(cataleg__llibre__id=id)
+
+    result = []
+    for exemplar in exemplars:
+        cataleg_instance = exemplar.cataleg
+
+        if hasattr(cataleg_instance, "llibre"):
+            cataleg_Field = LlibreOut.from_orm(cataleg_instance.llibre)
+            tipus = "llibre"
+        else:
+            cataleg_Field = CatalegOut.from_orm(cataleg_instance)
+            tipus = "indefinit"
+
+        result.append(
+            ExemplarOut(
+                id=exemplar.id,
+                registre=exemplar.registre,
+                exclos_prestec=exemplar.exclos_prestec,
+                baixa=exemplar.baixa,
+                cataleg=cataleg_Field,
+                tipus=tipus,
+                centre={
+                    "id": exemplar.centre.id,
+                    "nom": exemplar.centre.nom
+                },
+            )
+        )
+
+    return result
+
+
+
 class UsuariCSV:
     def __init__(self, nom: str, cognom1: str, cognom2: str, email: str, telefon: str, centre: str, grup: str):
         self.nom = nom

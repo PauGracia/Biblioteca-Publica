@@ -1,10 +1,8 @@
-// src/pages/Login.jsx
 import { useState, useEffect } from "react";
 import LabelInput from "../components/LabelInput";
 import Button from "../components/Button";
 import Header from "../components/Header";
 import Paragraph from "../components/Paragraph";
-import Sidebar from "../components/Sidebar";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 
@@ -14,7 +12,6 @@ function Login({
   setRole,
   setGrupos,
   setToken,
-  goToCatalag,
   backToLogin,
 }) {
   console.log("Login iniciat ...");
@@ -24,8 +21,8 @@ function Login({
   const [errorMessage, setErrorMessage] = useState("");
   const [localGrupos, setLocalGrupos] = useState([]);
 
-  // Cargar credenciales desde localStorage
-  useEffect(() => {
+  // Cargar credenciales guardadas
+  /*useEffect(() => {
     console.log("Cargando credenciales de localStorage");
     const storedUsername = localStorage.getItem("username");
     const storedPassword = localStorage.getItem("password");
@@ -33,7 +30,7 @@ function Login({
       setUsernameLocal(storedUsername);
       setPasswordLocal(storedPassword);
     }
-  }, []);
+  }, []);*/
 
   useEffect(() => {
     console.log("Grups actualitzats:", localGrupos);
@@ -41,10 +38,12 @@ function Login({
 
   const handleSaveCredentials = () => {
     localStorage.setItem("username", username);
-    localStorage.setItem("password", password);
+    //localStorage.setItem("password", password);
+
     console.log("Credencials guardades:", { username, password });
   };
 
+  // FUNCIÓN DE LOGIN PRINCIPAL
   const handleLogin = async () => {
     console.log("Botó de login clickat");
     handleSaveCredentials();
@@ -64,37 +63,46 @@ function Login({
       console.log("Respuesta de login:", data);
 
       if (data.exists) {
-        console.log("Grupos del usuario:", data.grupos);
-        setLocalGrupos(data.grupos);
-        setUser(username);
-        setAuthenticated(true);
-        setGrupos(data.grupos);
+        // Guardar grupos y token
+        const grupos = data.grupos.map((g) => g.toLowerCase());
+        const receivedToken = data.token || "tempToken"; // evita null
 
-        // Asignar token y mostrarlo
-        const receivedToken = data.token; // Aquí supongo que el token viene en data.token
+        console.log("Grupos del usuario:", grupos);
         console.log("Token recibido:", receivedToken);
-        setToken(receivedToken); // Guardar el token en el estado local
 
+        // Determinar el rol según los grupos
+        let roleValue = "guest";
+        if (grupos.includes("admin")) roleValue = "admin";
+        else if (grupos.includes("bibliotecari")) roleValue = "bibliotecari";
+        else if (grupos.includes("usuari")) roleValue = "usuari";
+
+        // Login.jsx después del login exitoso
+        // Guardar en estados
+        setLocalGrupos(grupos);
+        setGrupos(grupos);
+        setUser(username);
+        setToken(receivedToken); // React ve el cambio de token
+        setRole(roleValue); // React ve el cambio de rol
+        setAuthenticated(true);
+
+        // Guardar en localStorage
         localStorage.setItem("authToken", receivedToken);
+        localStorage.setItem("username", username);
+        localStorage.setItem("role", roleValue);
 
-        // Definir el rol según los grupos del usuario
-        if (data.grupos.includes("Admin")) {
-          setRole("admin");
-          setErrorMessage("");
-        } else if (data.grupos.includes("Bibliotecario")) {
-          setRole("bibliotecario");
-          setErrorMessage("");
-        } else if (data.grupos.includes("usuari")) {
-          setRole("usuari");
-          setErrorMessage("");
-        } else {
-          setRole("guest");
-          setErrorMessage("");
-        }
+        setErrorMessage("");
 
+        // Redirigir sin retraso
+        //setPage("bookList"); // en lugar de backToLogin()
         backToLogin();
+
+        // Espera un tick antes de redirigir (para que React actualice)
+        setTimeout(() => {
+          console.log("✅ Rol asignado:", roleValue);
+          backToLogin();
+        }, 0);
       } else {
-        throw new Error("Usuario no encontrado");
+        throw new Error("Usuari no trobat");
       }
     } catch (error) {
       console.error("Error en login:", error);
@@ -103,9 +111,32 @@ function Login({
     }
   };
 
+  // LOGIN GOOGLE
+  const handleGoogleSuccess = (credentialResponse) => {
+    console.log("Login Google exitoso:", credentialResponse);
+    const decoded = jwtDecode(credentialResponse.credential);
+    console.log("Datos del usuario Google:", decoded);
+
+    setUser(decoded.email || decoded.name);
+    setAuthenticated(true);
+    setRole("usuari");
+    setToken(credentialResponse.credential);
+    localStorage.setItem("authToken", credentialResponse.credential);
+    localStorage.setItem("role", "usuari");
+    localStorage.setItem("username", decoded.email || decoded.name);
+    backToLogin();
+  };
+
+  const handleGoogleError = () => {
+    console.log("Error al iniciar sesión con Google");
+    setErrorMessage("Error al iniciar sesión con Google");
+  };
+
+  // RENDER
   return (
     <div className="container" style={{ marginTop: "80px", width: "700px" }}>
       <Header level={1}>Login</Header>
+
       <LabelInput
         label="Nom d'usuari"
         type="text"
@@ -114,7 +145,9 @@ function Login({
         onChange={(e) => setUsernameLocal(e.target.value)}
         autoComplete="username"
       />
+
       <br />
+
       <LabelInput
         label="Contrasenya"
         type="password"
@@ -123,31 +156,20 @@ function Login({
         onChange={(e) => setPasswordLocal(e.target.value)}
         autoComplete="current-password"
       />
+
       <Button
         text="Inicia sessió"
         onClick={handleLogin}
         className="login-button"
       />
+
       {errorMessage && (
         <Paragraph style={{ color: "red" }}>{errorMessage}</Paragraph>
       )}
-      <GoogleLogin
-        onSuccess={(credentialResponse) => {
-          console.log("Login Google exitoso:", credentialResponse);
-          const decoded = jwtDecode(credentialResponse.credential);
-          console.log("Datos del usuario Google:", decoded);
 
-          setUser(decoded.email || decoded.name);
-          setAuthenticated(true);
-          setRole("usuari");
-          setToken(credentialResponse.credential);
-          localStorage.setItem("authToken", credentialResponse.credential);
-          backToLogin();
-        }}
-        onError={() => {
-          console.log("Error al iniciar sesión con Google");
-          setErrorMessage("Error al iniciar sesión con Google");
-        }}
+      <GoogleLogin
+        onSuccess={handleGoogleSuccess}
+        onError={handleGoogleError}
         theme="outline"
         size="large"
         text="signin_with"

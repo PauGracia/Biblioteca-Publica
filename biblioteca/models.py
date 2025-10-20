@@ -149,16 +149,14 @@ class Usuari(AbstractUser):
     auth_token = models.CharField(max_length=32,blank=True,null=True)
     telefon = models.CharField(max_length=20,blank=True,null=True)
     def save(self, *args, **kwargs):
-        # Si el usuario no tiene ID (se está creando)
         is_new = self.pk is None
-
-        # Primero guarda el objeto para tener asignado un ID.
         super().save(*args, **kwargs)
 
-        # Si es nuevo, añadimos el usuario al grupo "usuarios"
-        if is_new:
+        # Solo usuarios normales obtienen el rol "usuari"
+        if is_new and not self.is_staff and not self.is_superuser:
             rol, created = Rol.objects.get_or_create(name='usuari')
             self.groups.add(rol)
+
     def __str__(self):
         return self.username
 

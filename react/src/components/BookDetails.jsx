@@ -202,7 +202,7 @@ function BookDetails({ bookId, onBack, extraProp, userRole, onCrearPrestac }) {
             </div>
 
             {/* Botó només per a bibliotecaris */}
-            {userRole === "bibliotecario" && (
+            {userRole === "bibliotecari" && (
               <div
                 style={{
                   display: "flex",

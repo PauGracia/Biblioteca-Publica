@@ -136,12 +136,10 @@ function CrearPrestac({ bookId, bookTitle, onBack }) {
       setLoading((prev) => ({ ...prev, exemplars: true }));
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/api/llibres/${bookId}/amb_exemplars`
+          `http://127.0.0.1:8000/api/llibres/${bookId}/exemplars`
         );
         const data = await response.json();
-        const disponibles = data.exemplars.filter((e) => !e.exclos_prestec);
-        setExemplars(disponibles);
-
+        const disponibles = data.filter((e) => !e.exclos_prestec);
         setExemplars(disponibles);
       } catch (error) {
         console.error("Error:", error);

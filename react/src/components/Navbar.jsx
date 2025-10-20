@@ -13,18 +13,18 @@ function Navbar({
   style,
   isToken,
   setRole,
+  onLogout,
+  role,
   ...others
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
-    // Eliminar el token, actualizar estado y cerrar el menú
-    localStorage.removeItem("authToken");
+    localStorage.clear();
     setAuthenticated(false);
+    setRole(""); // reset rol
+    changeToken("");
     setMenuOpen(false);
-    changeToken(false);
-
-    console.log("token borrado: ", changeToken, "   token :    ", isToken);
   };
 
   const toggleMenu = () => {
@@ -37,6 +37,21 @@ function Navbar({
         <Link to="/" className="navbar-logo" onClick={() => setMenuOpen(false)}>
           Biblioteca Pública
         </Link>
+
+        {isToken && role === "bibliotecari" && (
+          <li className="nav-item">
+            <Button text="Gestió CSV" onClick={() => console.log("CSV")} />
+          </li>
+        )}
+
+        {isToken && role === "usuari" && (
+          <li className="nav-item">
+            <Button
+              text="Els meus préstecs"
+              onClick={() => console.log("Préstecs")}
+            />
+          </li>
+        )}
 
         {isToken && user && (
           <li className="nav-item list-none">
@@ -81,7 +96,8 @@ function Navbar({
                 <Button
                   text="Tancar Sessió"
                   onClick={() => {
-                    handleLogout();
+                    //handleLogout();
+                    onLogout(); // Para cerrar cesion
                     onCatalagClick();
                   }}
                 />

@@ -1,14 +1,12 @@
-import Header from "../components/Header"
-import Paragraph from "../components/Paragraph"
+import Header from "../components/Header";
+import Paragraph from "../components/Paragraph";
 
-
-function Prestacs({ username}) {
-    return (
-        <div className="container">
-            <Header level={2}>Hola, {username} (Bibliotecario)</Header>
-            
-        </div>
-    );
+function Prestacs({ username }) {
+  return (
+    <div className="container">
+      <Header level={2}>Hola, {username} (bibliotecari)</Header>
+    </div>
+  );
 }
 
-export default Prestacs
+export default Prestacs;

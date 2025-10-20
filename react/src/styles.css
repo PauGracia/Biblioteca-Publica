@@ -499,10 +499,20 @@ h3 {
   width: auto;
 }
 
-.gif-banner {
+/*.gif-banner {
   margin: 20px auto 0;
   display: block;
   width: fit-content;
+}*/
+
+/* Posicion del Gif al final de la pantalla*/
+.gif-banner {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: fit-content;
+  z-index: 1000;
 }
 
 .books-grid {

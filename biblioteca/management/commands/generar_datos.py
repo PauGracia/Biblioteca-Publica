@@ -23,20 +23,47 @@ from biblioteca.models import (
 
 
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group as Rol
+from biblioteca.models import Centre
+
+
+def crear_roles_basicos():
+    for nombre in ["usuari", "bibliotecari", "admin"]:
+        Rol.objects.get_or_create(name=nombre)
+    print("✅ Roles básicos asegurados.")
 
 def crear_superuser():
     User = get_user_model()
     if not User.objects.filter(username="admin").exists():
-        User.objects.create_superuser(
+        user = User.objects.create_superuser(
             username="admin",
             email="admin@example.com",
-            password="admin",
-            first_name="Admin",
-            last_name="User"
+            password="admin"
         )
-        print("Superusuario 'admin' creado con contraseña 'admin'.")
+        rol, _ = Rol.objects.get_or_create(name="admin")
+        user.groups.add(rol)
+        print("✅ Superusuario creado y asignado al rol 'admin'.")
     else:
-        print("Superusuario 'admin' ya existe.")
+        print("ℹ️ Superusuario ya existe.")
+
+def crear_bibliotecario():
+    User = get_user_model()
+    if not User.objects.filter(username="bibliotecario").exists():
+        centre = Centre.objects.first()
+        user = User.objects.create_user(
+            username="bibliotecario",
+            email="bibliotecario@example.com",
+            password="bibliotecario",
+            centre=centre,
+            is_staff=True,       # puede entrar al admin
+            is_superuser=False
+        )
+        rol, _ = Rol.objects.get_or_create(name="bibliotecari")
+        user.groups.add(rol)
+        print("✅ Bibliotecario creado con rol 'bibliotecari'.")
+    else:
+        print("ℹ️ Bibliotecario ya existe.")
+
 
 
 from datetime import datetime, timedelta, time
@@ -104,13 +131,7 @@ def crear_paises_y_lenguas():
     for lengua in lenguas_comunes:
         Llengua.objects.create(nom=lengua)
 
-def crear_autores_y_libros():
-    print("Creando autores y libros...")
-    # Asegurarse de tener un centro para asignar a los ejemplares
-    default_centre = Centre.objects.first()
-    if not default_centre:
-        default_centre = Centre.objects.create(nom="Esteve Terradas i Illa")
-
+def crear_autores_y_libros(centros):
     # Crear instancias de Autor y Editorial
     autors = [Autor.objects.create(nom=fake.name()) for _ in range(100)]
     editorials = [Editorial.objects.create(nom=fake.company()) for _ in range(20)]
@@ -191,7 +212,7 @@ def crear_autores_y_libros():
                     registre=f"REG-{fake.bothify('####-####')}",
                     exclos_prestec=random.random() < 0.1,
                     baixa=random.random() < 0.05,
-                    centre=default_centre
+                    centre=random.choice(centros) 
                 )
                 ejemplares_creados += 1
                 if ejemplares_creados >= ejemplares_objetivo:
@@ -247,7 +268,7 @@ def crear_autores_y_libros():
                 registre=f"REG-{fake.bothify('####-####')}",
                 exclos_prestec=random.random() < 0.1,
                 baixa=random.random() < 0.05,
-                centre=default_centre
+                centre=random.choice(centros) 
             )
             ejemplares_creados += 1
             if ejemplares_creados % 100 == 0:
@@ -255,7 +276,7 @@ def crear_autores_y_libros():
     
     print(f"Final: {libros_creados} libros y {ejemplares_creados} ejemplares")
 
-def crear_otros_materiales():
+def crear_otros_materiales(centros):
     print("Creando otros materiales (Revistas, CDs, DVDs, BRs, Dispositivos)...")
 
     autores = list(Autor.objects.all())  
@@ -308,7 +329,7 @@ def crear_otros_materiales():
                 registre=f"REV-{fake.bothify('####-####')}",
                 exclos_prestec=True,
                 baixa=random.random() < 0.05,
-                centre=default_centre
+                centre=random.choice(centros) 
             )
 
     
@@ -346,7 +367,7 @@ def crear_otros_materiales():
                     registre=f"CD-{fake.bothify('####-####')}",
                     exclos_prestec=random.random() < 0.2,
                     baixa=random.random() < 0.05,
-                    centre=default_centre
+                    centre=random.choice(centros) 
                 )
 
         except Exception as e:
@@ -385,7 +406,7 @@ def crear_otros_materiales():
                     registre=f"DVD-{fake.bothify('####-####')}",
                     exclos_prestec=random.random() < 0.15,
                     baixa=random.random() < 0.05,
-                    centre=default_centre
+                    centre=random.choice(centros) 
                 )
         except Exception as e:
             print("❌ Error creando dvd:", e)
@@ -422,7 +443,7 @@ def crear_otros_materiales():
                     registre=f"BR-{fake.bothify('####-####')}",
                     exclos_prestec=random.random() < 0.15,
                     baixa=random.random() < 0.05,
-                    centre=default_centre
+                    centre=random.choice(centros) 
                 )
         except Exception as e:
             print("❌ Error creando blu:", e)
@@ -456,7 +477,7 @@ def crear_otros_materiales():
                 registre=f"DISP-{fake.bothify('####-####')}",
                 exclos_prestec=random.random() < 0.3,
                 baixa=random.random() < 0.05,
-                centre=default_centre
+                centre=random.choice(centros) 
             )
 
     print(" → Materiales adicionales creados correctamente.")
@@ -481,9 +502,11 @@ def crear_centros_y_ciclos():
     
     return centros, ciclos
 
-def crear_usuarios_y_prestamos():
+def crear_usuarios_y_prestamos(centros, ciclos):
     print("Creando usuarios y préstamos...")
-    centros, ciclos = crear_centros_y_ciclos()
+    from datetime import date
+    current_date = date.today()
+    
     usuarios = []
     for i in range(50):
         username = fake.user_name()
@@ -500,10 +523,15 @@ def crear_usuarios_y_prestamos():
         usuarios.append(usuario)
     
     ejemplares = list(Exemplar.objects.filter(baixa=False, exclos_prestec=False))
-    current_date = datetime.now().date()
+    if not ejemplares:
+        print("⚠️ No hay ejemplares disponibles para crear préstamos.")
+        return
     
     for i in range(500):
         ejemplar = random.choice(ejemplares)
+        if not ejemplares:
+            print("⚠️ No hay ejemplares disponibles para crear préstamos.")
+            return
         usuario = random.choice(usuarios)
         max_days_ago = min(365, (current_date - datetime(2023, 1, 1).date()).days)
         days_ago = random.randint(7, max_days_ago)
@@ -545,10 +573,17 @@ class Command(BaseCommand):
         
         crear_categorias()
         crear_paises_y_lenguas()
-        crear_autores_y_libros()
-        crear_otros_materiales()  
-        crear_usuarios_y_prestamos()
+
+        #  Crear centros antes que los libros
+        centros, ciclos = crear_centros_y_ciclos()
+        # Pasar centros a las funciones que los necesitan
+        crear_autores_y_libros(centros)
+        crear_otros_materiales(centros) 
+
+        crear_usuarios_y_prestamos(centros, ciclos)
+        crear_roles_basicos()
         crear_superuser()
+        crear_bibliotecario()
         
         self.stdout.write("=== GENERACIÓN DE DATOS COMPLETADA ===")
         self.stdout.write(f"Total libros creados: {Llibre.objects.count()}")
