@@ -3,7 +3,9 @@
 REACT_FOLDER=react
 echo "Construint projecte React..."
 cd $REACT_FOLDER
-npm install
+#npm install
+npm install --registry=http://registry.npmjs.org/
+
 npm run build
 cd ..
 

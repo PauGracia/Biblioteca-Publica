@@ -197,7 +197,7 @@ def crear_autores_y_libros(centros):
                 pagines=random.randint(50, 800) if random.random() < 0.9 else None,
                 info_url=fake.url() if random.random() < 0.5 else None,
                 preview_url=fake.url() if random.random() < 0.3 else None,
-                thumbnail_url=fake.image_url(width=200, height=300) if random.random() < 0.4 else None
+                thumbnail_url=f"https://picsum.photos/200/300?random={random.randint(1,10000)}"
             )
             libro.tags.set(random.sample(categorias, random.randint(1, 4)))
             libros_creados += 1

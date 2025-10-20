@@ -1116,6 +1116,12 @@ h3 {
     padding: 20px;
   }
 
+  .book-info-details {
+    max-height: 80vh; /* Altura máxima del contenedor */
+    overflow-y: auto; /* Scroll vertical si se pasa */
+    padding: 1rem;
+  }
+
   .search-input {
     font-size: 14px;
     padding: 10px 15px;
@@ -1124,6 +1130,19 @@ h3 {
   .search-button {
     padding: 10px 15px;
     font-size: 14px;
+  }
+
+  .book-cover img {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0; /* separación arriba y abajo */
+  }
+
+  .book-cover-image {
+    max-width: 180px; /* tamaño de la imagen */
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   }
 
   .search-status {

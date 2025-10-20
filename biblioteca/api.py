@@ -198,7 +198,8 @@ class CatalegOut(BaseModel):
 class LlibreOut(CatalegOut):
     ISBN: Optional[str] = Field(None)
     editorial: Optional[str] = Field(None)
-
+    thumbnail_url: Optional[str]
+    
     @validator('editorial', pre=True)
     def extract_editorial(cls, value):
         if value is None:
@@ -310,12 +311,12 @@ def get_exemplars(request):
 def get_exemplars_by_llibre(request, id: int):
     exemplars = Exemplar.objects.select_related(
         "cataleg__llibre",
-        # "cataleg__revista",
-        #"cataleg__cd",
-        # "cataleg__dvd",
-        # "cataleg__br",
-        # "cataleg__dispositiu",
-        # "centre",
+        "cataleg__revista",
+        "cataleg__cd",
+        "cataleg__dvd",
+        "cataleg__br",
+        "cataleg__dispositiu",
+        "centre",
     ).filter(cataleg__llibre__id=id)
 
     result = []

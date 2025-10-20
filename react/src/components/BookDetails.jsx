@@ -89,6 +89,27 @@ function BookDetails({ bookId, onBack, extraProp, userRole, onCrearPrestac }) {
         ) : book ? (
           <div className="book-info-details">
             <h3 className="book-title-details h3">{book.titol}</h3>
+            {book.thumbnail_url && (
+              <div
+                className="book-cover"
+                style={{ textAlign: "center", margin: "1rem 0" }}
+              >
+                <img
+                  src={book.thumbnail_url}
+                  alt={`Portada de ${book.titol}`}
+                  style={{
+                    maxWidth: "100px",
+                    maxHeight: "200px",
+                    width: "auto",
+                    height: "auto",
+                    objectFit: "contain",
+                    display: "block",
+                    margin: "0 auto",
+                  }}
+                />
+              </div>
+            )}
+
             <div className="book-metadata">
               <div className="metadata-item">
                 <span>ID:</span> {book.id}
@@ -150,14 +171,7 @@ function BookDetails({ bookId, onBack, extraProp, userRole, onCrearPrestac }) {
                 <p>{book.anotacions}</p>
               </div>
             )}
-            {book.thumbnail_url && (
-              <div className="book-cover">
-                <img
-                  src={book.thumbnail_url}
-                  alt={`Portada de ${book.titol}`}
-                />
-              </div>
-            )}
+
             {book.info_url && (
               <div className="book-links">
                 <a
