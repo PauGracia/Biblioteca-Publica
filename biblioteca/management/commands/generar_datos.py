@@ -26,6 +26,75 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group as Rol
 from biblioteca.models import Centre
 
+# ============================================================
+# GENERADOR DE TÍTULOS ÚNICOS Y VARIADOS
+# ============================================================
+
+titulos_usados = set()
+
+def generar_titulo_unico(tipo="libro"):
+    adjetivos = [
+        "Oscuro", "Eterno", "Perdido", "Brillante", "Prohibido", "Infinito", "Olvidado", "Roto", "Oculto",
+        "Sagrado", "Maldito", "Lejano", "Desconocido", "Celestial", "Sombrío", "Rojo", "Azul", "Violeta",
+        "Peligroso", "Invisible", "Errante", "Silencioso", "Salvaje", "Misterioso"
+    ]
+
+    sustantivos = [
+        "Sueño", "Destino", "Silencio", "Bosque", "Tiempo", "Mar", "Reino", "Secreto", "Camino", "Amanecer",
+        "Fuego", "Niebla", "Sombra", "Memoria", "Luz", "Corazón", "Invierno", "Trono", "Grito", "Ocaso",
+        "Puente", "Espejo", "Guerra", "Promesa", "Lamento", "Jardín", "Laberinto", "Relámpago"
+    ]
+
+    conectores = ["del", "de la", "en", "hacia", "bajo", "sobre", "contra", "entre", "desde", "sin"]
+    prefijos = ["El", "La", "Los", "Las", "Un", "Una"]
+    nombres_propios = [fake.first_name(), fake.last_name(), fake.city(), fake.word().capitalize()]
+
+    # Estructuras generales
+    estructuras = [
+        lambda: f"{random.choice(prefijos)} {random.choice(sustantivos)} {random.choice(adjetivos)}",
+        lambda: f"{random.choice(adjetivos)} {random.choice(sustantivos)}",
+        lambda: f"{random.choice(sustantivos)} {random.choice(conectores)} {random.choice(sustantivos)}",
+        lambda: f"{random.choice(sustantivos)} {random.choice(conectores)} {random.choice(adjetivos)}s",
+        lambda: f"{random.choice(adjetivos)}s {random.choice(sustantivos)}s",
+        lambda: f"{random.choice(prefijos)} {random.choice(sustantivos)} {random.choice(conectores)} {random.choice(sustantivos)}",
+        lambda: f"{random.choice(adjetivos)} {random.choice(sustantivos)} {random.choice(conectores)} {random.choice(nombres_propios)}",
+        lambda: f"{random.choice(prefijos)} {random.choice(nombres_propios)} {random.choice(adjetivos)}",
+        lambda: f"{random.choice(adjetivos)} {random.choice(sustantivos)} de {random.choice(nombres_propios)}"
+    ]
+
+    # Estilos específicos por tipo de material
+    if tipo == "revista":
+        opciones = [
+            f"{random.choice(['Ciencia', 'Historia', 'Mundo', 'Arte', 'Sociedad', 'Educación', 'Tecnología', 'Cultura'])} {random.choice(['Hoy', 'Global', 'Moderna', 'Viva', 'Activa'])}",
+            f"{random.choice(['Horizontes', 'Perspectivas', 'Tendencias', 'Ideas', 'Conocimiento'])} {random.choice(['Actuales', 'Del Mundo', 'Abiertas'])}"
+        ]
+        estructuras = [lambda: random.choice(opciones)]
+
+    elif tipo == "cd":
+        opciones = [
+            f"{random.choice(['Ecos', 'Ritmos', 'Melodías', 'Sonidos', 'Voces'])} {random.choice(['del Corazón', 'del Mundo', 'Perdidos', 'Eternos'])}",
+            f"{random.choice(['Sueños', 'Notas', 'Luces', 'Sombras'])} {random.choice(['de Amor', 'en el Aire', 'del Ayer'])}"
+        ]
+        estructuras = [lambda: random.choice(opciones)]
+
+    elif tipo in ["dvd", "br"]:
+        opciones = [
+            f"{random.choice(['La', 'El'])} {random.choice(['Leyenda', 'Sombra', 'Aventura', 'Venganza', 'Misión', 'Historia'])} {random.choice(['Final', 'Eterna', 'Oculta', 'Prohibida', 'Imposible'])}",
+            f"{random.choice(['Sombras', 'Fuegos', 'Secretos', 'Héroes', 'Destinos'])} {random.choice(['Del Pasado', 'En Llamas', 'Perdidos', 'Sin Fin'])}"
+        ]
+        estructuras = [lambda: random.choice(opciones)]
+
+    # Generar título único
+    for _ in range(1000):
+        titulo = random.choice(estructuras)().title()
+        if titulo not in titulos_usados:
+            titulos_usados.add(titulo)
+            return titulo
+
+    # Fallback si se repite mucho
+    return f"{titulo} {random.randint(1, 999)}"
+
+
 
 def crear_roles_basicos():
     for nombre in ["usuari", "bibliotecari", "admin"]:
@@ -171,11 +240,9 @@ def crear_autores_y_libros(centros):
         for _ in range(num_libros):
             if libros_creados >= 1000:
                 break
-            titulo = random.choice([
-                f"{fake.word(ext_word_list=['Amor', 'Fuego', 'Sueños', 'Sombras', 'Destino', 'Hielo'])} Eterno",
-                f"El {fake.word(ext_word_list=['Viaje', 'Bosque', 'Silencio', 'Misterio', 'Mar', 'Desierto'])}",
-                f"{fake.word(ext_word_list=['Último', 'Gran', 'Nuevo','Primero'])} {fake.word(ext_word_list=['Héroe', 'Secreto', 'Destino', 'Historia'])}"
-                ])
+            titulo = generar_titulo_unico("libro")
+
+
             libro = Llibre.objects.create(
                 titol=titulo,
                 titol_original=titulo if random.random() < 0.3 else fake.sentence(nb_words=3).replace('.', '').title(),
@@ -340,11 +407,8 @@ def crear_otros_materiales(centros):
 
     for _ in range(40):
         try:
-            titulo = random.choice([
-                fake.word(ext_word_list=['Sueño','Noche','Amor','Misterio','Destino']).capitalize(),
-                f"{fake.word(ext_word_list=['Sueño','Noche','Amor'])} Eterno",
-                f"{fake.word(ext_word_list=['Gran','Nuevo','Último'])} Álbum"
-            ])
+            titulo = generar_titulo_unico("cd")
+
             duracion = timedelta(minutes=random.randint(30, 90))
 
             cd = CD.objects.create(
@@ -381,11 +445,8 @@ def crear_otros_materiales(centros):
     generos_peliculas = ["Acción", "Drama", "Comedia", "Aventura", "Terror", "Ciencia Ficción", "Romance"]
     for _ in range(40):
         try:
-            titulo = random.choice([
-                f"{fake.word(ext_word_list=['Legado','Ascenso','Secreto','Misterio','Aventura'])}",
-                f"{fake.word(ext_word_list=['Última','Nueva','Gran'])} Historia",
-                f"{fake.word(ext_word_list=['Sombras','Sueños','Destino'])} Perdido"
-            ])
+            titulo = generar_titulo_unico("dvd")
+
             duracion = timedelta(minutes=random.randint(60, 180))
             dvd = DVD.objects.create(
                 titol=titulo,
@@ -418,11 +479,8 @@ def crear_otros_materiales(centros):
     print(" → Blu-rays...")
     for _ in range(30):
         try:
-            titulo = random.choice([
-                f"{fake.word(ext_word_list=['Legado','Ascenso','Secreto','Misterio','Aventura'])}",
-                f"{fake.word(ext_word_list=['Última','Nueva','Gran'])} Historia",
-                f"{fake.word(ext_word_list=['Sombras','Sueños','Destino'])} Perdido"
-            ])
+            titulo = generar_titulo_unico("br")
+
             duracion = timedelta(minutes=random.randint(80, 200))
             br = BR.objects.create(
                 titol=titulo,

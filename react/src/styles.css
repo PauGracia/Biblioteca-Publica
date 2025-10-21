@@ -24,7 +24,7 @@
 /* 2. Si el sistema está en dark y NO hay clases, se activan vars dark */
 @media (prefers-color-scheme: dark) {
   :root:not(.theme-light):not(.theme-dark) {
-    --bg-color: #1b1a1a;
+    --bg-color: darkgray;
     --text-color: #e0e0e0;
     --input-text: #395dc0;
     --navbar-bg: #395dc0;
@@ -63,7 +63,7 @@
   --etiqueta-text-color: #000000;
 }
 .theme-dark {
-  --bg-color: #1b1a1a;
+  --bg-color: darkgray;
   --text-color: #e0e0e0;
   --input-text: #395dc0;
   --navbar-text: #e0e0e0;
@@ -294,6 +294,30 @@ input {
   min-height: calc(100vh - 70px);
 }
 
+.sidebar-container {
+  position: fixed;
+  top: 70px; /* para no tapar la navbar */
+  left: 0;
+  width: 130px;
+  height: 100%; /* altura completa del viewport */
+  background-color: rgba(63, 94, 153, 0.9);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 999;
+  margin-right: 10px;
+}
+
+.sidebar-top-space {
+  height: 20px;
+}
+
+.sidebarButton {
+  margin-bottom: 10px; /* espacio entre botones */
+}
+
 .container {
   max-width: 1000px !important;
   order: 2;
@@ -306,13 +330,53 @@ input {
   order: 2;
   margin: 0 auto;
   padding: 20px;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.container-books {
-  width: 600px !important;
-  order: 2;
-  margin: 0 auto;
+.book-details-card {
+  flex: 1;
+  overflow-y: auto;
   padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  scroll-behavior: smooth; /* scroll suave */
+}
+
+.theme-dark .container-detail-card {
+  border: 2px solid darkgray;
+}
+
+.book-cover {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.book-cover-image {
+  max-width: 100px;
+  max-height: 200px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+/* scroll más limpio en Chrome / Edge / Safari */
+.book-details-card::-webkit-scrollbar {
+  width: 6px;
+}
+.book-details-card::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+.book-details-card::-webkit-scrollbar-thumb:hover {
+  background: #999;
 }
 
 .header {
@@ -662,7 +726,7 @@ h3 {
 .details-title {
   text-align: center;
   color: var(--navbar-bg);
-  margin-top: 0;
+  /*margin-top: 0;*/
 }
 
 .book-title-details {
@@ -1099,12 +1163,13 @@ h3 {
   }
 
   .container-detail {
-    max-width: 350px;
+    max-width: 350px !important;
     padding: 15px;
+    margin-left: 50px;
   }
 
   .container-books {
-    max-width: 350px;
+    max-width: 400px !important;
     padding: 15px;
   }
 
@@ -1113,36 +1178,17 @@ h3 {
   }
 
   .book-details-card {
-    padding: 20px;
-  }
-
-  .book-info-details {
-    max-height: 80vh; /* Altura máxima del contenedor */
-    overflow-y: auto; /* Scroll vertical si se pasa */
-    padding: 1rem;
+    padding: 15px;
   }
 
   .search-input {
-    font-size: 14px;
-    padding: 10px 15px;
+    font-size: 12px;
+    padding: 8px 12px;
   }
 
   .search-button {
     padding: 10px 15px;
     font-size: 14px;
-  }
-
-  .book-cover img {
-    display: flex;
-    justify-content: center;
-    margin: 1rem 0; /* separación arriba y abajo */
-  }
-
-  .book-cover-image {
-    max-width: 180px; /* tamaño de la imagen */
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   }
 
   .search-status {
@@ -1203,10 +1249,35 @@ h3 {
   .navbar-logo {
     font-size: 1rem;
   }
+
+  .gif-banner {
+    max-width: 100%;
+    bottom: 0;
+    margin: 0;
+  }
+
+  .sidebar-container {
+    width: 90px;
+  }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
   .books-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .container-detail {
+    max-width: 350px !important;
+    padding: 15px;
+    margin-left: 50px;
+  }
+
+  .sidebar-container {
+    width: 90px;
+  }
+  .gif-banner {
+    max-width: 100%;
+    bottom: 0;
+    margin: 0;
   }
 }

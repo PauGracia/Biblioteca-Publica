@@ -20,12 +20,10 @@ import re
 
 from typing import List, Optional, Union, Dict
 
-
 from pydantic import BaseModel, Field, validator
 
 from typing import Optional
 
-# Importación de modelos (si usas wildcard, de lo contrario importa solo lo que necesites)
 from .models import *
 from datetime import date
 
@@ -253,10 +251,51 @@ def post_llibres(request, payload: LlibreIn):
 
 
 
-@api.get("/llibres/{id}", response=LlibreOut)
+
+
+class LlibreDetallOut(LlibreOut):
+    exemplars: List[ExemplarOut] = Field(default_factory=list)
+
+    class Config:
+        from_attributes = True  # muy importante
+
+@api.get("/llibres/{id}", response=LlibreDetallOut)
 def get_llibre_by_id(request, id: int):
     llibre = get_object_or_404(Llibre, id=id)
-    return llibre
+
+    exemplars = Exemplar.objects.select_related(
+        "cataleg__llibre",
+        "centre",
+    ).filter(cataleg__llibre__id=id)
+
+    exemplars_serialitzats = []
+    for e in exemplars:
+        cataleg_instance = e.cataleg
+        if hasattr(cataleg_instance, "llibre"):
+            cataleg_Field = LlibreOut.from_orm(cataleg_instance.llibre)
+            tipus = "llibre"
+        else:
+            cataleg_Field = CatalegOut.from_orm(cataleg_instance)
+            tipus = "indefinit"
+
+        exemplars_serialitzats.append(
+            ExemplarOut(
+                id=e.id,
+                registre=e.registre,
+                exclos_prestec=e.exclos_prestec,
+                baixa=e.baixa,
+                cataleg=cataleg_Field,
+                tipus=tipus,
+                centre={"id": e.centre.id, "nom": e.centre.nom},
+            )
+        )
+
+    # Creamos manualmente el objeto de salida
+    llibre_out = LlibreDetallOut.from_orm(llibre)
+    llibre_out.exemplars = exemplars_serialitzats
+    return llibre_out
+
+
 
 @api.get("/exemplars", response=List[ExemplarOut])
 @api.get("/exemplars/", response=List[ExemplarOut])

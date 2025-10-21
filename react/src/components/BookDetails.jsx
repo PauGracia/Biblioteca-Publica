@@ -78,7 +78,6 @@ function BookDetails({ bookId, onBack, extraProp, userRole, onCrearPrestac }) {
         ← Tornar a la llista
       </button>
       <div className="book-details-card">
-        <h2 className="details-title h2">Detalls del llibre</h2>
         {loading ? (
           <div className="loading-container">
             <div className="loading-spinner"></div>
@@ -90,22 +89,11 @@ function BookDetails({ bookId, onBack, extraProp, userRole, onCrearPrestac }) {
           <div className="book-info-details">
             <h3 className="book-title-details h3">{book.titol}</h3>
             {book.thumbnail_url && (
-              <div
-                className="book-cover"
-                style={{ textAlign: "center", margin: "1rem 0" }}
-              >
+              <div className="book-cover">
                 <img
                   src={book.thumbnail_url}
                   alt={`Portada de ${book.titol}`}
-                  style={{
-                    maxWidth: "100px",
-                    maxHeight: "200px",
-                    width: "auto",
-                    height: "auto",
-                    objectFit: "contain",
-                    display: "block",
-                    margin: "0 auto",
-                  }}
+                  className="book-cover-image"
                 />
               </div>
             )}

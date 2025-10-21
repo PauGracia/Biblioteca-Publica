@@ -53,8 +53,9 @@ class Cataleg(models.Model):
     llengua = models.ForeignKey('Llengua', on_delete=models.SET_NULL, null=True, blank=True)
     tags = models.ManyToManyField('Categoria', blank=True)
 
-    def exemplars(self):
+    def exemplars_count(self):
         return 0
+
 
     def __str__(self):
         return self.titol
