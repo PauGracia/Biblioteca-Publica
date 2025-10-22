@@ -186,11 +186,11 @@ function BookDetails({ bookId, onBack, extraProp, userRole, onCrearPrestac }) {
                     <li key={centre}>
                       {centre}:{" "}
                       <span style={{ color: "red" }}>
-                        Exclosos: {stats.exclosos}
+                        Reservat:{stats.exclosos}
                       </span>{" "}
                       |{" "}
                       <span style={{ color: "green" }}>
-                        No exclosos: {stats.noExclosos}
+                        Disponible:{stats.noExclosos}
                       </span>
                     </li>
                   ))}

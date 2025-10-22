@@ -16,7 +16,8 @@ import CsvUpload from "./components/CsvUpload";
 import CrearPrestac from "./components/CrearPrestac";
 import CarritoExemplars from "./components/CarritoExemplars";
 
-import gifBanner from "./assets/gifP3.gif";
+//import gifBanner from "./assets/gifP3.gif";
+import gifBanner from "./assets/gif1.webp";
 
 function App() {
   // Estados generales
