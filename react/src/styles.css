@@ -1177,7 +1177,6 @@ h3 {
   .container-detail {
     max-width: 400px !important;
     padding: 15px;
-    margin-left: 50px;
   }
 
   .sidebar-container {
@@ -1223,9 +1222,8 @@ h3 {
   }
 
   .container-detail {
-    max-width: 400px !important;
+    max-width: 380px !important;
     padding: 15px;
-    margin-left: 50px;
   }
 
   .container-books {
