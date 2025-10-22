@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Biblioteca MariCarmen Brito
 
 Software per a gestió de biblioteques.
@@ -74,4 +75,57 @@ Exemples:
 
 GET /api/llibres
 paràmetres: no n'hi ha
+
+
+
+=======
+# Biblioteca-Publica
+Página web para administración de una biblioteca
+>>>>>>> 2691a1227f35fc7d5aa3d85182f75acd18d5d7c9
+
+# 1. Requisitos previos (Linux)
+sudo apt update
+sudo apt install python3 python3-pip python3-venv git nodejs npm
+
+# 2. Clonar el repositorio
+git clone https://github.com/PauGracia/Biblioteca-Publica.git
+cd Biblioteca-Publica
+
+# 3. Crear y activar entorno virtual (Linux)
+python3 -m venv venv
+source venv/bin/activate
+
+# 4. Instalar dependencias de Python
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# 5. Crear archivo .env en la raíz con:
+# DEBUG=True
+# SECRET_KEY=your-secret-key
+# DATABASE_URL=sqlite:///db.sqlite3
+# ALLOWED_HOSTS=localhost,127.0.0.1
+# CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+
+# 6. Migraciones de base de datos
+python manage.py migrate
+
+# 7. Preparar React
+cd react
+npm install
+cd ..
+
+# 8. Compilar React y mover archivos estáticos
+./deploy-react.sh
+python manage.py collectstatic --noinput
+
+# 9. Generar datos de prueba y superuser con Faker
+python manage.py generar_datos
+
+# 10. Levantar servidor Django
+python manage.py runserver
+
+# 11. Subir cambios al repositorio
+git add requirements.txt
+git commit -m "Actualizado requirements.txt con django-extensions"
+git push origin pro
 
