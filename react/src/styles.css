@@ -1156,6 +1156,52 @@ h3 {
   text-align: center;
   width: 100%;
 }
+
+/* === CREAR PRESTEC === */
+.container-books {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  padding-top: 2rem;
+  padding-bottom: 200px; /* margen para que no se meta debajo del GIF */
+  box-sizing: border-box;
+}
+
+.crear-prestec-wrapper {
+  background-color: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  width: 100%;
+  width: 600px; /* ancho máximo */
+  margin: 0 auto;
+}
+
+.crear-prestec-title {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  background-color: rgba(59, 130, 246, 0.5);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.crear-prestec-booktitle {
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #3b82f6;
+  background-color: white;
+  border: 1px solid #3b82f6;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
 /* 
 
 
@@ -1326,5 +1372,10 @@ h3 {
     width: 75px;
     height: 75px;
     margin-bottom: 15px;
+  }
+
+  .crear-prestec-wrapper {
+    padding: 1rem;
+    width: 350px;
   }
 }

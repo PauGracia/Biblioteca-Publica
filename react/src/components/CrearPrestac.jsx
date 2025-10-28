@@ -158,16 +158,10 @@ function CrearPrestac({ bookId, bookTitle, onBack }) {
   return (
     <>
       <div className="container-books">
-        <div className="w-[800px] mt-10 mx-auto p-4 bg-white rounded-lg shadow-md">
-          <h3
-            className="text-xl font-semibold mb-6 text-center text-white py-3 rounded-md shadow"
-            style={{ backgroundColor: "rgba(59, 130, 246, 0.5)" }}
-          >
-            Crear préstec
-          </h3>
-          <h2 className="text-lg font-semibold mb-6 text-center text-blue-500 bg-white border border-blue-500 py-2 rounded-md shadow">
-            {bookTitle}
-          </h2>
+        <div className="crear-prestec-wrapper">
+          <h3 className="crear-prestec-title">Crear préstec</h3>
+
+          <h2 className="crear-prestec-booktitle">{bookTitle}</h2>
 
           {/* Buscador de usuarios */}
           <div className="mb-6">

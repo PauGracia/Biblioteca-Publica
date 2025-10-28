@@ -10,12 +10,12 @@ https://docs.djangoproject.com/en/4.2/howto/deployment/wsgi/
 import os
 import sys
 
-#sys.path.insert(0, '/var/www/html/biblioteca-maricarmen5/biblioteca-maricarmen')
+#sys.path.insert(0, '/var/www/html/biblioteca-publica')
 
-sys.path.insert(0, '/var/www/html/biblioteca-maricarmen5')
+sys.path.insert(0, '/var/www/html/biblioteca-publica')
 #from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'biblioteca-maricarmen.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'biblioteca-publica.settings')
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

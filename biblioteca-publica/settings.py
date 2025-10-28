@@ -66,7 +66,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'biblioteca-maricarmen.urls'
+ROOT_URLCONF = 'biblioteca-publica.urls'
 
 TEMPLATES = [
     {
@@ -84,7 +84,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'biblioteca-maricarmen.wsgi.application'
+WSGI_APPLICATION = 'biblioteca-publica.wsgi.application'
 
 
 # Database
