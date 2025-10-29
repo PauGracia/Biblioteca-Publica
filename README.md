@@ -1,131 +1,243 @@
-<<<<<<< HEAD
-# Biblioteca MariCarmen Brito
+# 📚 Biblioteca Pública - Sistema de Gestión de Bibliotecas
 
-Software per a gestió de biblioteques.
+> ⚠️ **Estado del proyecto**: En desarrollo activo  
+> 🎯 **Propósito**: Proyecto educativo y de práctica
 
-En record de Mari Carmen Brito de l'Institut Esteve Terradas i Illa de Cornellà de Llobregat.
+## 🚧 Estado Actual
 
-## Instal·lació
+**Biblioteca Pública** se encuentra actualmente en **fase de desarrollo**. Es un proyecto creado fundamentalmente con fines educativos, para la práctica y exploración de tecnologías web modernas.
 
-Instal·leu git, Python3 i l'entorn de treball virtualenv:
+Aunque funcional, puede contener características en evolución y se recomienda su uso principalmente para entornos de aprendizaje y desarrollo.
 
-    sudo apt update
-    sudo apt install python3-venv git
+## 🌍 Compatibilidad Multiplataforma
 
-Cloneu el repositori:
+El proyecto está diseñado para ser compatible con los principales sistemas operativos:
 
-    git clone https://github.com/AWS2/biblioteca-maricarmen
-    cd biblioteca-maricarmen
+- ✅ **Linux** (Ubuntu, Debian, Fedora, etc.)
+- ✅ **Windows** (10, 11 + WSL recomendado)
+- ✅ **macOS** (versiones recientes)
 
-Creem el virtualenv i carreguem les biblioteques:
+## 🎯 Descripción del Proyecto
 
-    python3 -m venv env
-    source env/bin/activate
+**Biblioteca Pública** es una aplicación web desarrollada para la gestión integral de bibliotecas, diseñada tanto para los usuarios que desean explorar y gestionar sus préstamos de libros como para los administradores que necesitan mantener el control del catálogo y las operaciones de la biblioteca.
 
-Carreguem les biblioteques del sistema (en particular per l'us de MySQL). Pel cas de Debian/Ubuntu:
+Este proyecto nace con un propósito fundamentalmente **educativo y de práctica**, creado por mera diversión y con el objetivo de profundizar en el dominio de diversas tecnologías web modernas. No está destinado inicialmente para uso en producción, aunque su arquitectura permite una potencial adaptación para entornos reales.
 
-    sudo apt install libmysqlclient-dev python3-dev python3-mysqldb gcc pkgconf
+## 🛠️ Stack Tecnológico
 
-Carreguem les biblioteques de Python:
+El proyecto utiliza un stack tecnológico completo y moderno:
 
-    (env) $ pip install -r requirements.txt
+- **Backend**: Django (Python) con Django REST Framework
+- **Frontend**: React con JavaScript moderno
+- **Base de datos**: SQLite (desarrollo) / PostgreSQL (producción)
+- **Estilos**: CSS3 y frameworks de componentes
+- **APIs**: Arquitectura RESTful
+- **Control de versiones**: Git
 
-Creem la base de dades de desenvolupament i afegim un superusuari:
+## 🌐 Entornos de Despliegue
 
-    (env) $ cp .env.example .env
-    (env) $ ./manage.py migrate
-    (env) $ ./manage.py createsuperuser
+### Desarrollo Local
 
-Posem en marxa el servidor de desenvolupament:
+La aplicación está configurada para ejecutarse de forma óptima en entornos de desarrollo local, utilizando el servidor integrado de Django y el entorno de desarrollo de React.
 
-    (env) $ ./manage.py runserver
+### Producción (Adaptable)
 
-Podeu accedir el servidor a http://localhost:8000/admin/
+Aunque el enfoque principal es el desarrollo, la aplicación puede adaptarse para su despliegue en diversos entornos de producción:
 
-Per carregar la base de dades de test:
+- **Apache** con mod_wsgi
+- **Nginx** con Gunicorn
+- **Docker** y contenedores
+- **Plataformas cloud** (AWS, Google Cloud, Azure, DigitalOcean)
+- **Servidores VPS** tradicionales
+- **Plataformas PaaS** (Heroku, Railway, PythonAnywhere)
 
-    (env) $ ./manage.py loaddata testdb.json
+## ⚙️ Características Principales
 
+- 🔍 **Catálogo de libros** con búsqueda y filtros
+- 👥 **Gestión de usuarios** y perfiles
+- 📚 **Sistema de préstamos** y reservas
+- 🏷️ **Categorización** de libros por géneros
+- 📊 **Panel de administración** completo
+- 🔐 **Sistema de autenticación** seguro
+- 📱 **Interfaz responsive** y moderna
 
-## Frontend React
+---
 
-Si accedim al frontend http://localhost:8000/ mostrarà un missatge de benvinguda i prou. Si volem activar el frontend realitzat en React caldrà carregar el submòdul a /react i desplegar-ho dins el projecte Django:
+# 🚀 Guía de Instalación Rápida
 
-    $ git submodule init
-    $ git submodule update
-    $ ./deploy-react.sh
+## Prerrequisitos Multiplataforma
 
-Ara ja es podrà accedir a la pàgina principal http://localhost:8000/ i visualitzar el frontend complert:
+### Windows
 
-    (env) $ ./manage.py runserver
+- Instalar [Python 3.9+](https://www.python.org/downloads/)
+- Instalar [Node.js](https://nodejs.org/)
+- Instalar [Git](https://git-scm.com/)
 
+### macOS
 
-## API
+```bash
+# Con Homebrew
+brew install python3 nodejs git
+```
 
-Per accedir l'API dels llibres cal aconseguir un token vàlid:
+### Linux (Ubuntu/Debian)
 
-GET /api/token
-paràmetres:
-  * user
-  * password
-
-Exemples:
-    curl "localhost:8000/api/token/" -i -X GET -u admin:admin123
-
-
-GET /api/llibres
-paràmetres: no n'hi ha
-
-
-
-=======
-# Biblioteca-Publica
-Página web para administración de una biblioteca
->>>>>>> 2691a1227f35fc7d5aa3d85182f75acd18d5d7c9
-
-# 1. Requisitos previos (Linux)
+```bash
 sudo apt update
 sudo apt install python3 python3-pip python3-venv git nodejs npm
+```
 
-# 2. Clonar el repositorio
+## 📦 Instalación Paso a Paso
+
+### 1. Clonar el repositorio
+
+```bash
 git clone https://github.com/PauGracia/Biblioteca-Publica.git
 cd Biblioteca-Publica
+```
 
-# 3. Crear y activar entorno virtual (Linux)
+### 2. Configurar entorno virtual de Python
+
+**Linux/macOS:**
+
+```bash
 python3 -m venv venv
 source venv/bin/activate
+```
 
-# 4. Instalar dependencias de Python
+**Windows:**
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 3. Instalar dependencias de Python
+
+```bash
 pip install --upgrade pip
 pip install -r requirements.txt
+```
 
-# 5. Crear archivo .env en la raíz con:
-# DEBUG=True
-# SECRET_KEY=your-secret-key
-# DATABASE_URL=sqlite:///db.sqlite3
-# ALLOWED_HOSTS=localhost,127.0.0.1
-# CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+### 4. Configurar variables de entorno
 
-# 6. Migraciones de base de datos
+Crear archivo `.env` en la raíz del proyecto:
+
+```env
+DEBUG=True
+SECRET_KEY=your-secret-key-here
+DATABASE_URL=sqlite:///db.sqlite3
+ALLOWED_HOSTS=localhost,127.0.0.1
+CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+```
+
+### 5. Configurar base de datos
+
+```bash
 python manage.py migrate
+```
 
-# 7. Preparar React
+### 6. Preparar frontend React
+
+**Instalar dependencias de Node.js:**
+
+```bash
 cd react
 npm install
 cd ..
+```
 
-# 8. Compilar React y mover archivos estáticos
+**Linux/macOS:**
+
+```bash
+chmod +x deploy-react.sh
 ./deploy-react.sh
+```
+
+**Windows:**
+
+```bash
+# Ejecutar manualmente los comandos dentro de deploy-react.sh
+# o usar Git Bash para ejecutar el script
+```
+
+### 7. Colectar archivos estáticos
+
+```bash
 python manage.py collectstatic --noinput
+```
 
-# 9. Generar datos de prueba y superuser con Faker
+### 8. Poblar con datos de prueba
+
+```bash
 python manage.py generar_datos
+```
 
-# 10. Levantar servidor Django
+### 9. Ejecutar servidor de desarrollo
+
+```bash
 python manage.py runserver
+```
 
-# 11. Subir cambios al repositorio
-git add requirements.txt
-git commit -m "Actualizado requirements.txt con django-extensions"
-git push origin pro
+📖 **¡Listo! La aplicación estará disponible en:** [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
+---
+
+## ⚠️ Solución de Problemas Comunes
+
+### Error de permisos en scripts (Linux/macOS)
+
+```bash
+chmod +x deploy-react.sh
+```
+
+### Módulos de Python faltantes
+
+```bash
+pip install -r requirements.txt
+```
+
+### Problemas con Node.js (Windows)
+
+Asegúrate de tener Node.js instalado y añadido al PATH.
+
+### Dependencias de React faltantes
+
+```bash
+cd react
+npm install
+cd ..
+```
+
+### Conflictos de puertos
+
+```bash
+python manage.py runserver 8080  # Usar puerto alternativo
+```
+
+### ModuleNotFoundError: No module named 'django_extensions'
+
+```bash
+pip install django-extensions
+```
+
+---
+
+## 🤝 Contribuciones
+
+¡Las contribuciones son bienvenidas! Siéntete libre de:
+
+- 🐛 Reportar errores
+- 💡 Sugerir nuevas características
+- 🔧 Enviar pull requests
+- 📚 Mejorar la documentación
+
+## 📄 Licencia
+
+Este es un proyecto de código abierto con fines educativos. Úsalo, modifícalo y compártelo libremente.
+
+---
+
+**¿Preguntas o problemas?** Abre un issue en el repositorio para obtener ayuda.
+
+**¡Disfruta explorando el proyecto!** 🎉
