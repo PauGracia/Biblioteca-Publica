@@ -223,15 +223,6 @@ pip install django-extensions
 
 ---
 
-## 🤝 Contribuciones
-
-¡Las contribuciones son bienvenidas! Siéntete libre de:
-
-- 🐛 Reportar errores
-- 💡 Sugerir nuevas características
-- 🔧 Enviar pull requests
-- 📚 Mejorar la documentación
-
 ## 📄 Licencia
 
 Este es un proyecto de código abierto con fines educativos. Úsalo, modifícalo y compártelo libremente.
